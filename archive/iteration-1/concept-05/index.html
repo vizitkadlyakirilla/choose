@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="ru" data-concept="5" data-base="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>КИРИЛЛ — плакат · Вариант 5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Onest:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/present.css">
+<style>
+:root{--blue:#1f2bff;--bone:#efe9dc;--red:#ff3b1f;--ink:#0d0d12;--side:88px;--kpp-left:88px}
+*{box-sizing:border-box}
+body{margin:0;background:var(--blue);color:var(--bone);font:16px/1.5 'Onest',system-ui,sans-serif;overflow-x:hidden}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--red);outline-offset:3px}
+.mono{font:500 12px 'IBM Plex Mono',monospace;letter-spacing:.06em;text-transform:uppercase}
+.disp{font-family:'Unbounded',sans-serif;font-weight:900;letter-spacing:-.04em;line-height:.86;text-transform:uppercase}
+/* side index */
+.idx{position:fixed;left:0;top:0;bottom:0;width:var(--side);z-index:30;background:var(--ink);display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding:18px 0}
+.idx .home{writing-mode:vertical-rl;transform:rotate(180deg);font:900 22px 'Unbounded';letter-spacing:-.02em;text-decoration:none}
+.idx nav{display:flex;flex-direction:column;gap:4px}
+.idx nav a{display:flex;flex-direction:column;align-items:center;gap:2px;width:72px;padding:10px 0;text-decoration:none;color:#9da0b8;border-radius:10px;transition:background .2s,color .2s}
+.idx nav a b{font:700 18px 'Unbounded'}
+.idx nav a small{font:500 10px 'IBM Plex Mono';text-transform:uppercase;letter-spacing:.04em}
+.idx nav a:hover{color:var(--bone);background:#22233a}
+.idx nav a[aria-current]{color:var(--ink);background:var(--red)}
+.idx .cta{width:56px;height:56px;border-radius:50%;background:var(--red);color:var(--ink);display:flex;align-items:center;justify-content:center;text-decoration:none;font:700 11px/1.1 'IBM Plex Mono';text-align:center;transition:transform .3s}
+.idx .cta:hover{transform:rotate(-12deg) scale(1.08)}
+.mtop{display:none}
+main{margin-left:var(--side)}
+.view{display:none;min-height:100vh;position:relative}
+.view.on{display:block}
+.wipe{position:fixed;inset:0 0 0 var(--side);z-index:25;background:var(--red);transform:translateX(-101%);pointer-events:none}
+.wipe.go{animation:wipe .7s cubic-bezier(.7,0,.2,1)}
+@keyframes wipe{0%{transform:translateX(-101%)}45%,55%{transform:none}100%{transform:translateX(101%)}}
+/* hero */
+.hero{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));grid-template-rows:repeat(8,minmax(0,1fr));gap:12px;height:100vh;min-height:640px;padding:22px}
+.hero .name{grid-column:1/13;grid-row:6/9;align-self:end;margin:0;font-size:clamp(76px,17.5vw,300px);color:var(--bone);position:relative;z-index:2;mix-blend-mode:difference}
+.f{position:relative;overflow:hidden;background:var(--blue);margin:0;cursor:pointer;border:0;padding:0;transition:transform .5s cubic-bezier(.2,.8,.1,1)}
+.f img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.15);mix-blend-mode:multiply;transition:filter .5s,mix-blend-mode .5s,transform .8s cubic-bezier(.2,.8,.1,1)}
+.f:hover img,.f:focus-visible img{filter:none;mix-blend-mode:normal;transform:scale(1.04)}
+.f .tag{position:absolute;left:10px;bottom:10px;background:var(--bone);color:var(--ink);padding:4px 8px}
+.h1{grid-column:6/10;grid-row:1/5}
+.h2{grid-column:10/13;grid-row:2/4}
+.h3{grid-column:3/6;grid-row:3/6}
+.roles{grid-column:1/5;grid-row:1/3;display:flex;flex-direction:column;gap:4px;margin:0;padding:0;list-style:none}
+.roles a{display:flex;gap:12px;align-items:baseline;font:700 clamp(18px,2vw,30px) 'Unbounded';text-decoration:none;text-transform:uppercase;letter-spacing:-.02em}
+.roles a span{font:500 12px 'IBM Plex Mono';color:var(--red)}
+.roles a:hover{color:var(--red)}
+.stk{grid-column:10/13;grid-row:5/7;justify-self:center;align-self:center;width:clamp(120px,12vw,180px);aspect-ratio:1;border-radius:50%;background:var(--red);color:var(--ink);display:flex;align-items:center;justify-content:center;text-align:center;font:700 13px/1.2 'Unbounded';text-decoration:none;text-transform:uppercase;animation:spin 18s linear infinite;z-index:3}
+.stk:hover{animation-play-state:paused;background:var(--bone)}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* sections */
+.sec{padding:clamp(60px,8vw,110px) clamp(18px,3vw,48px)}
+.shd{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:end;margin-bottom:28px}
+.shd h2{margin:0;font-size:clamp(54px,10vw,170px)}
+.run{white-space:nowrap;font-size:clamp(40px,7vw,120px);color:transparent;-webkit-text-stroke:1.5px var(--bone);margin:0 0 30px;transform:translateX(var(--x,0));will-change:transform}
+.tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.tg{min-height:42px;padding:0 16px;border:2px solid var(--bone);background:transparent;color:var(--bone);font:700 13px 'Unbounded';text-transform:uppercase;cursor:pointer;border-radius:999px}
+.tg[aria-pressed="true"]{background:var(--bone);color:var(--blue)}
+.tg:hover{border-color:var(--red);color:var(--red)}
+.tg[aria-pressed="true"]:hover{color:var(--blue)}
+.grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));grid-auto-rows:clamp(120px,14vw,220px);grid-auto-flow:dense;gap:12px}
+.card{position:relative;grid-column:span 2;grid-row:span 2;text-align:left;color:var(--bone)}
+.card.w{grid-column:span 4}
+.card.t{grid-row:span 3}
+.card.s{grid-column:span 2;grid-row:span 1}
+.card .num{position:absolute;right:10px;top:6px;font:900 clamp(40px,5vw,80px)/1 'Unbounded';color:var(--bone);mix-blend-mode:difference;z-index:2}
+.card .ttl{position:absolute;left:10px;right:10px;bottom:10px;z-index:2;display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+.card .ttl b{font:900 clamp(18px,2vw,30px)/1 'Unbounded';text-transform:uppercase;background:var(--ink);padding:6px 8px}
+.card .ttl .mono{background:var(--bone);color:var(--ink);padding:3px 6px}
+.card[hidden]{display:none}
+.list{list-style:none;margin:0;padding:0;border-top:2px solid var(--bone)}
+.list button{width:100%;display:grid;grid-template-columns:70px minmax(0,1fr) auto;gap:16px;align-items:baseline;padding:16px 0;border:0;border-bottom:2px solid var(--bone);background:transparent;color:var(--bone);text-align:left;cursor:pointer}
+.list b{font:900 clamp(22px,3.4vw,52px)/1 'Unbounded';text-transform:uppercase;letter-spacing:-.03em;transition:color .2s,transform .4s}
+.list button:hover b{color:var(--red);transform:translateX(12px)}
+.peek{position:fixed;width:300px;aspect-ratio:16/10;pointer-events:none;z-index:40;transform:translate(24px,-50%) rotate(-3deg);opacity:0;transition:opacity .2s;border:6px solid var(--bone)}
+.peek.on{opacity:1}
+.peek img{width:100%;height:100%;object-fit:cover}
+[data-reveal]{opacity:0;transform:translateY(40px) skewY(3deg);transition:opacity .8s,transform .9s cubic-bezier(.2,.8,.1,1)}
+[data-reveal].is-in{opacity:1;transform:none}
+.poster{background:var(--bone);color:var(--ink);padding:clamp(24px,4vw,56px);display:grid;grid-template-columns:1fr 1fr;gap:20px;min-height:60vh}
+.poster .disp{font-size:clamp(40px,6vw,96px);color:var(--blue)}
+.poster p{margin:0;font-size:18px}
+.dashed{border:2px dashed currentColor;padding:14px}
+.slots{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.slots div{aspect-ratio:4/5;border:2px solid var(--bone);display:flex;flex-direction:column;justify-content:space-between;padding:14px;background:repeating-linear-gradient(-45deg,transparent 0 10px,rgba(239,233,220,.07) 10px 20px)}
+.slots b{font:900 48px/1 'Unbounded'}
+.quote{font:700 clamp(28px,4vw,60px)/1.05 'Unbounded';text-transform:uppercase;letter-spacing:-.03em;margin:0;max-width:16ch}
+.quote em{font-style:normal;color:var(--red)}
+form.ct{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;max-width:1000px}
+.ct label{display:flex;flex-direction:column;gap:6px}
+.ct input,.ct select,.ct textarea{font:18px 'Onest';padding:14px;border:2px solid var(--bone);background:transparent;color:var(--bone);border-radius:0}
+.ct select option{color:#000}
+.ct input:focus,.ct textarea:focus,.ct select:focus{outline:0;border-color:var(--red);background:rgba(0,0,0,.12)}
+.ct .full{grid-column:1/-1}
+.btn{min-height:52px;padding:0 24px;border:2px solid var(--bone);background:transparent;color:var(--bone);font:700 14px 'Unbounded';text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:transform .2s}
+.btn:hover{transform:translate(-3px,-3px);box-shadow:3px 3px 0 var(--bone)}
+.btn.r{background:var(--red);border-color:var(--red);color:var(--ink)}
+.btn.r:hover{box-shadow:3px 3px 0 var(--ink)}
+.row{display:flex;flex-wrap:wrap;gap:10px}
+[data-kp-status]{margin:0;background:var(--ink);padding:12px;grid-column:1/-1}
+.note{font-size:13px;opacity:.75}
+/* panel */
+.pnl{position:fixed;top:0;right:0;bottom:0;width:min(760px,100%);z-index:60;background:var(--bone);color:var(--ink);transform:translateX(100%);transition:transform .6s cubic-bezier(.7,0,.2,1);display:flex;flex-direction:column;overflow:auto}
+.pnl.is-open{transform:none}
+.pnl[hidden]{display:flex}
+.pnl .m{background:var(--blue);aspect-ratio:16/9;flex:none}
+.pnl .m img,.pnl .m video{width:100%;height:100%;object-fit:cover}
+.pnl .b{padding:24px 28px;display:flex;flex-direction:column;gap:14px}
+.pnl h3{margin:0;font:900 clamp(36px,5vw,72px)/.9 'Unbounded';text-transform:uppercase;letter-spacing:-.04em;color:var(--blue)}
+.pnl dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 18px}
+.pnl dt{font:500 12px 'IBM Plex Mono';text-transform:uppercase;color:#555}
+.pnl dd{margin:0}
+.pnl .btn{border-color:var(--ink);color:var(--ink)}
+.pnl .btn.r{color:var(--ink)}
+.pnl .x{position:absolute;top:14px;right:14px;z-index:2;background:var(--bone)}
+.shade{position:fixed;inset:0;z-index:55;background:rgba(13,13,18,.5);opacity:0;pointer-events:none;transition:opacity .4s}
+.shade.on{opacity:1;pointer-events:auto}
+@media (max-width:860px){
+  :root{--side:0px;--kpp-left:0px}
+  .idx{top:auto;height:64px;width:100%;flex-direction:row;padding:0 8px}
+  .idx .home,.idx .cta{display:none}
+  .idx nav{flex-direction:row;width:100%;justify-content:space-between}
+  .idx nav a{width:auto;flex:1;padding:8px 0}
+  main{margin-bottom:64px}
+  .wipe{inset:0}
+  .hero{grid-template-rows:repeat(10,minmax(0,1fr));height:calc(100vh - 64px)}
+  .roles{grid-column:1/13;grid-row:1/3}
+  .h1{grid-column:3/13;grid-row:3/6}.h2{grid-column:1/6;grid-row:6/8}.h3{display:none}
+  .stk{grid-column:7/13;grid-row:6/8;width:110px}
+  .hero .name{grid-row:8/11}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:150px}
+  .card,.card.w{grid-column:span 2}.card.s{grid-column:span 1}
+  .poster{grid-template-columns:1fr}
+  .slots{grid-template-columns:1fr 1fr}
+  form.ct{grid-template-columns:1fr}
+  .peek{display:none}
+  .shd{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}[data-reveal]{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<aside class="idx" aria-label="Навигация">
+  <a class="home" href="#home" data-go="home">Кирилл</a>
+  <nav aria-label="Разделы">
+    <a href="#work" data-go="work"><b>01</b><small>Режиссура</small></a>
+    <a href="#words" data-go="words"><b>02</b><small>Сценарии</small></a>
+    <a href="#ai" data-go="ai"><b>03</b><small>AI</small></a>
+    <a href="#about" data-go="about"><b>04</b><small>Обо мне</small></a>
+    <a href="#contact" data-go="contact"><b>05</b><small>Связь</small></a>
+  </nav>
+  <a class="cta" href="#contact" data-go="contact">Обсудить<br>проект</a>
+</aside>
+<div class="wipe" id="wipe" aria-hidden="true"></div>
+
+<main>
+  <section class="view on" id="v-home" aria-label="Главная">
+    <div class="hero">
+      <ul class="roles"><li><a href="#work" data-go="work"><span>01</span>Режиссёр</a></li><li><a href="#words" data-go="words"><span>02</span>Сценарист</a></li><li><a href="#ai" data-go="ai"><span>03</span>AI-креатор</a></li></ul>
+      <button class="f h1" data-open="ahmad" aria-label="AHMAD TEA"><img src="../../assets/posters/ahmad.jpg" alt=""><span class="tag mono">AHMAD TEA · 0:15</span></button>
+      <button class="f h2" data-open="petlya" aria-label="Петля"><img src="../../assets/posters/petlya.jpg" alt=""><span class="tag mono">«Петля» · диплом</span></button>
+      <button class="f h3" data-open="parody" aria-label="Пародия на сериалы нулевых"><img src="../../assets/posters/parody.jpg" alt=""><span class="tag mono">Пародия · 4:3</span></button>
+      <a class="stk" href="#work" data-go="work">10 работ ↓ смотреть</a>
+      <h1 class="name disp">Кирилл</h1>
+    </div>
+  </section>
+
+  <section class="view" id="v-work" aria-label="Режиссура">
+    <div class="sec">
+      <p class="run disp" id="run">Реклама — Кино — Опыты — Реклама — Кино — Опыты —</p>
+      <div class="shd"><h2 class="disp">Режиссура</h2>
+        <div class="tools"><div class="row" role="group" aria-label="Фильтр"><button class="tg" data-f="all" aria-pressed="true">Все</button><button class="tg" data-f="ads" aria-pressed="false">Реклама</button><button class="tg" data-f="film" aria-pressed="false">Кино</button><button class="tg" data-f="exp" aria-pressed="false">Опыты</button></div>
+        <div class="row" role="group" aria-label="Вид"><button class="tg" data-v="grid" aria-pressed="true">Плакаты</button><button class="tg" data-v="list" aria-pressed="false">Список</button></div></div></div>
+      <div class="grid" id="grid"></div>
+      <ul class="list" id="list" hidden></ul>
+    </div>
+  </section>
+
+  <section class="view" id="v-words" aria-label="Сценарии">
+    <div class="sec"><div class="shd"><h2 class="disp">Сценарии</h2></div>
+      <div class="poster" data-reveal><p class="disp">Слова до кадра</p><div style="display:flex;flex-direction:column;gap:16px;justify-content:flex-end"><p>Здесь будут сценарии, синопсисы и концепции Кирилла — каждый как отдельный плакат: логлайн, синопсис, страницы, статус.</p><p class="dashed mono">Демо-ограничение: материалы для раздела ещё не получены.</p></div></div></div>
+  </section>
+
+  <section class="view" id="v-ai" aria-label="AI">
+    <div class="sec"><div class="shd"><h2 class="disp">AI</h2><p class="mono" style="max-width:320px">Генеративные работы: промпт, инструменты, результат</p></div>
+      <div class="slots" data-reveal><div><b>01</b><span class="mono">Слот для AI-работы</span></div><div><b>02</b><span class="mono">Слот для AI-работы</span></div><div><b>03</b><span class="mono">Слот для AI-работы</span></div></div>
+      <p class="note" style="margin-top:14px">Демо-ограничение: AI-материалы ещё не предоставлены.</p></div>
+  </section>
+
+  <section class="view" id="v-about" aria-label="Обо мне">
+    <div class="sec" style="display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:20px">
+      <p class="quote" data-reveal style="grid-column:1/9">Привет! Я Кирилл — <em>режиссёр</em>, сценарист и AI-креатор.</p>
+      <p data-reveal style="grid-column:7/13;font-size:20px;margin:0">Снимаю рекламу — «Горная», AHMAD TEA, Twinby, AliExpress, Dodo GO, Bupas Gym. Сделал дипломный фильм «Петля» и короткий метр «История одной смерти». И иногда — пародии на сериалы нулевых.</p>
+      <button class="f" data-open="twinby" style="grid-column:2/7;aspect-ratio:16/9" data-reveal aria-label="Twinby"><img src="../../assets/posters/twinby5.jpg" alt=""></button>
+    </div>
+  </section>
+
+  <section class="view" id="v-contact" aria-label="Контакт">
+    <div class="sec"><div class="shd"><h2 class="disp">Напиши</h2></div>
+      <form class="ct" data-kp-contact data-reveal>
+        <label><span class="mono">Имя</span><input name="name"></label>
+        <label><span class="mono">Контакт</span><input name="contact" placeholder="Telegram / телефон / почта"></label>
+        <label class="full"><span class="mono">Проект</span><select name="project"><option>Реклама</option><option>Кино</option><option>Клип</option><option>AI-проект</option><option>Сценарий</option></select></label>
+        <label class="full"><span class="mono">Задача</span><textarea name="message" rows="4"></textarea></label>
+        <div class="row full"><button class="btn r" data-act="tg" type="button">Telegram</button><button class="btn" data-act="mail" type="button">Письмо</button><button class="btn" data-act="copy" type="button">Скопировать</button></div>
+        <p data-kp-status role="status" aria-live="polite" hidden></p>
+        <p class="note full">Контакты Кирилла добавим после согласования — пока Telegram откроет выбор чата.</p>
+      </form></div>
+  </section>
+</main>
+<div class="peek" id="peek" aria-hidden="true"><img alt="" id="peekimg"></div>
+<div class="shade" id="shade"></div>
+<div class="pnl" id="pnl" role="dialog" aria-modal="true" aria-labelledby="pnlt" hidden>
+  <button class="btn x" type="button" data-close>Закрыть ×</button>
+  <div class="m" id="pnlm"></div>
+  <div class="b"><p class="mono" id="pnlk" style="margin:0;color:var(--red)"></p><h3 id="pnlt"></h3><dl id="pnld"></dl><p class="note" id="pnln"></p>
+  <div class="row"><a class="btn r" id="pnls" target="_blank" rel="noopener">Оригинал ↗</a><button class="btn" id="pnlnext" type="button">Следующая →</button></div></div>
+</div>
+
+<script src="../../js/data.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/common.js"></script>
+<script src="../../js/present.js"></script>
+<script>
+(function(){
+  var $ = KP.qs, W = KP.works;
+  /* роутинг разделов */
+  var views = ['home','work','words','ai','about','contact'];
+  function go(v, push){
+    if (views.indexOf(v) < 0) v = 'home';
+    var cur = $('.view.on'), next = $('#v-'+v);
+    KP.qsa('.idx nav a').forEach(function(a){ a.toggleAttribute('aria-current', a.dataset.go===v); });
+    if (cur === next) return;
+    var w = $('#wipe');
+    function swap(){ if (cur) cur.classList.remove('on'); next.classList.add('on'); scrollTo(0,0); KP.qsa('[data-reveal]',next).forEach(function(e){ e.classList.remove('is-in'); }); KP.reveal(next); }
+    if (KP.reduced || !cur) swap(); else { w.classList.remove('go'); void w.offsetWidth; w.classList.add('go'); setTimeout(swap, 330); }
+    if (push) history.pushState(null,'','#'+v);
+  }
+  KP.qsa('[data-go]').forEach(function(a){ a.addEventListener('click', function(e){ e.preventDefault(); go(a.dataset.go, true); }); });
+  addEventListener('popstate', function(){ go(location.hash.slice(1)||'home'); });
+  go(location.hash.slice(1)||'home');
+
+  /* сетка плакатов */
+  var shapes = ['w t','','t','s','w','','s','t','w','s'];
+  $('#grid').innerHTML = W.map(function(w,k){ return '<button class="f card '+shapes[k]+'" data-open="'+w.id+'" data-cat="'+w.cat+'" data-reveal><img src="'+KP.poster(w.posters[0])+'" alt="" loading="lazy"><span class="num">'+(k<9?'0':'')+(k+1)+'</span><span class="ttl"><b>'+KP.esc(w.title)+'</b><span class="mono">'+KP.esc(w.kind)+(w.dur?' · '+KP.esc(w.dur):'')+'</span></span></button>'; }).join('');
+  $('#list').innerHTML = W.map(function(w,k){ return '<li data-cat="'+w.cat+'"><button data-open="'+w.id+'" data-img="'+w.posters[0]+'"><span class="mono">'+(k<9?'0':'')+(k+1)+'</span><b>'+KP.esc(w.title)+'</b><span class="mono">'+KP.esc(w.kind)+'</span></button></li>'; }).join('');
+  /* FLIP-фильтр */
+  KP.qsa('[data-f]').forEach(function(b){ b.addEventListener('click', function(){
+    KP.qsa('[data-f]').forEach(function(x){ x.setAttribute('aria-pressed', x===b); });
+    var f = b.dataset.f, cards = KP.qsa('#grid .card'), first = cards.map(function(c){ return c.getBoundingClientRect(); });
+    cards.forEach(function(c){ c.hidden = f!=='all' && c.dataset.cat!==f; });
+    KP.qsa('#list li').forEach(function(li){ li.hidden = f!=='all' && li.dataset.cat!==f; });
+    if (KP.reduced) return;
+    cards.forEach(function(c,k){ if (c.hidden) return; var l = c.getBoundingClientRect(), p = first[k];
+      if (!p.width) { c.animate([{opacity:0,transform:'scale(.8)'},{opacity:1,transform:'none'}],{duration:450,easing:'cubic-bezier(.2,.8,.1,1)'}); return; }
+      c.animate([{transform:'translate('+(p.left-l.left)+'px,'+(p.top-l.top)+'px) scale('+(p.width/l.width)+','+(p.height/l.height)+')'},{transform:'none'}],{duration:600,easing:'cubic-bezier(.2,.8,.1,1)'}); });
+  }); });
+  KP.qsa('[data-v]').forEach(function(b){ b.addEventListener('click', function(){ KP.qsa('[data-v]').forEach(function(x){ x.setAttribute('aria-pressed', x===b); }); $('#grid').hidden = b.dataset.v!=='grid'; $('#list').hidden = b.dataset.v!=='list'; }); });
+  var pk = $('#peek'), pki = $('#peekimg');
+  KP.qsa('#list button').forEach(function(b){ b.addEventListener('mouseenter', function(){ pki.src = KP.poster(b.dataset.img); pk.classList.add('on'); }); b.addEventListener('mouseleave', function(){ pk.classList.remove('on'); }); });
+  addEventListener('mousemove', function(e){ pk.style.left = e.clientX+'px'; pk.style.top = e.clientY+'px'; }, {passive:true});
+  /* наклон плакатов */
+  if (!KP.reduced) KP.qsa('.f').forEach(function(c){
+    c.addEventListener('mousemove', function(e){ var r = c.getBoundingClientRect(), x = (e.clientX-r.left)/r.width-.5, y = (e.clientY-r.top)/r.height-.5; c.style.transform = 'perspective(800px) rotateY('+(x*6)+'deg) rotateX('+(-y*6)+'deg)'; });
+    c.addEventListener('mouseleave', function(){ c.style.transform = ''; });
+  });
+  /* бегущая строка от скролла */
+  var run = $('#run');
+  addEventListener('scroll', function(){ if (!KP.reduced) run.style.setProperty('--x', (-scrollY*.4)+'px'); }, {passive:true});
+
+  /* панель проекта */
+  var pnl = $('#pnl'), sh = $('#shade'), M = KP.modal(pnl), curW;
+  function openP(id){ var w = KP.byId(id); curW = w;
+    $('#pnlm').innerHTML = KP.mediaHTML(w); $('#pnlk').textContent = w.kind + (w.dur ? ' · ' + w.dur : ''); $('#pnlt').textContent = w.title;
+    $('#pnld').innerHTML = [['Заказчик',w.client],['Длительность',w.dur||'уточняется'],['Кадр',w.aspect],['Загружено',w.upload],['Роль','уточняется']].map(function(r){ return '<dt>'+r[0]+'</dt><dd>'+KP.esc(r[1])+'</dd>'; }).join('');
+    $('#pnln').textContent = [w.note, KP.sourceNote(w)].filter(Boolean).join(' '); $('#pnls').href = w.source;
+    if (pnl.hidden) { M.open(); sh.classList.add('on'); } }
+  var oc = M.close; M.close = function(){ oc(); sh.classList.remove('on'); };
+  KP.qsa('[data-close]', pnl).forEach(function(b){ b.addEventListener('click', function(){ sh.classList.remove('on'); }); });
+  document.addEventListener('keydown', function(e){ if (e.key==='Escape') sh.classList.remove('on'); });
+  sh.addEventListener('click', function(){ M.close(); });
+  KP.qsa('[data-open]').forEach(function(b){ b.addEventListener('click', function(){ pk.classList.remove('on'); openP(b.dataset.open); }); });
+  $('#pnlnext').addEventListener('click', function(){ var k = W.indexOf(curW); openP(W[(k+1)%W.length].id); });
+
+  KP.wireContact($('[data-kp-contact]'), 'Плакат');
+})();
+</script>
+</body>
+</html>

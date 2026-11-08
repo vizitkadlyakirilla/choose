@@ -1,0 +1,80 @@
+/* Панель презентации и окно отзыва. Нейтральный «служебный» стиль, отделённый от дизайна концепций. */
+.kpp, .kpp-modal { --kpp-bg: #ffffff; --kpp-ink: #16181d; --kpp-mute: #5b6170; --kpp-line: #dfe2ea; --kpp-acc: #2f5bff; --kpp-acc-ink: #ffffff;
+  font: 14px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; color: var(--kpp-ink); letter-spacing: 0; text-transform: none; }
+.kpp *, .kpp-modal * { box-sizing: border-box; }
+.kpp { position: fixed; left: var(--kpp-left, 0px); top: 50%; transform: translateY(-50%); z-index: 2147483000; }
+.kpp-tab { display: flex; flex-direction: column; align-items: center; gap: 4px; width: 34px; padding: 10px 0; border: 1px solid var(--kpp-line); border-left: 0;
+  border-radius: 0 10px 10px 0; background: var(--kpp-bg); color: var(--kpp-ink); cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,.25); font: inherit; }
+.kpp-tab:hover { background: #f0f3ff; }
+.kpp-tabn { font-weight: 700; font-size: 12px; }
+.kpp-tabl { writing-mode: vertical-rl; transform: rotate(180deg); font-size: 12px; font-weight: 600; color: var(--kpp-mute); }
+.kpp-body { display: none; width: 248px; margin-left: 10px; padding: 14px; border-radius: 14px; background: var(--kpp-bg); border: 1px solid var(--kpp-line);
+  box-shadow: 0 12px 40px rgba(0,0,0,.35); flex-direction: column; gap: 8px; }
+.kpp[data-state="open"] .kpp-body { display: flex; }
+.kpp[data-state="open"] .kpp-tab, .kpp[data-state="hidden"] .kpp-tab, .kpp[data-state="hidden"] .kpp-body { display: none; }
+.kpp-dot { display: none; position: fixed; left: 8px; bottom: 8px; width: 14px; height: 14px; padding: 0; border: 2px solid #fff; border-radius: 50%; background: var(--kpp-acc);
+  box-shadow: 0 0 0 1px rgba(0,0,0,.4); cursor: pointer; }
+.kpp-dot::after { content: ""; position: absolute; inset: -15px; }
+.kpp[data-state="hidden"] .kpp-dot { display: block; }
+.kpp-top { display: flex; justify-content: space-between; align-items: center; }
+.kpp-eyebrow { margin: 0; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--kpp-mute); }
+.kpp-min { width: 28px; height: 28px; border: 1px solid var(--kpp-line); border-radius: 8px; background: #fff; color: var(--kpp-ink); cursor: pointer; font-size: 18px; line-height: 1; }
+.kpp-name { margin: 0; font-weight: 700; font-size: 16px; }
+.kpp-name small { display: block; font-weight: 400; font-size: 12px; color: var(--kpp-mute); }
+.kpp-nums { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; }
+.kpp-nums a { display: flex; align-items: center; justify-content: center; height: 32px; border-radius: 8px; border: 1px solid var(--kpp-line); color: var(--kpp-ink); text-decoration: none; font-weight: 600; }
+.kpp-nums a:hover { border-color: var(--kpp-acc); color: var(--kpp-acc); }
+.kpp-nums a[aria-current] { background: var(--kpp-ink); color: #fff; border-color: var(--kpp-ink); }
+.kpp-row { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.kpp-b { display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 8px 10px; border-radius: 9px; border: 1px solid var(--kpp-line);
+  background: #fff; color: var(--kpp-ink); font: 600 13px/1.2 system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; text-decoration: none; cursor: pointer; text-align: center; }
+.kpp-b:hover { border-color: var(--kpp-acc); color: var(--kpp-acc); }
+.kpp-b--main { background: var(--kpp-acc); color: var(--kpp-acc-ink); border-color: var(--kpp-acc); }
+.kpp-b--main:hover { background: #1f45d6; color: #fff; }
+.kpp a:focus-visible, .kpp button:focus-visible, .kpp-modal :focus-visible { outline: 3px solid #ffb800; outline-offset: 2px; }
+@media (max-width: 640px) {
+  .kpp { top: 38%; transform: none; }
+  .kpp[data-state="open"] { top: 50%; transform: translateY(-50%); }
+  .kpp-tab { width: 28px; padding: 8px 0; }
+  .kpp-tabl { display: none; }
+  .kpp-body { width: min(300px, calc(100vw - 20px)); margin-left: 10px; }
+}
+
+.kpp-lock, .kpp-lock body { overflow: hidden; }
+.kpp-modal { position: fixed; inset: 0; z-index: 2147483600; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(10,12,18,.62); }
+.kpp-modal[hidden] { display: none; }
+.kpp-card { position: relative; width: min(560px, 100%); max-height: calc(100vh - 32px); overflow: auto; padding: 22px; border-radius: 16px; background: var(--kpp-bg);
+  box-shadow: 0 20px 60px rgba(0,0,0,.45); display: flex; flex-direction: column; gap: 12px; }
+.kpp-x { position: absolute; top: 10px; right: 10px; width: 36px; height: 36px; border: 0; border-radius: 50%; background: #f1f2f6; color: var(--kpp-ink); font-size: 22px; cursor: pointer; }
+.kpp-h { margin: 0; font-size: 22px; line-height: 1.15; padding-right: 40px; }
+.kpp-f { display: flex; flex-direction: column; gap: 4px; font-weight: 600; font-size: 13px; }
+.kpp-f select, .kpp-f textarea { font: 400 15px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; color: var(--kpp-ink); padding: 9px 10px;
+  border: 1px solid #c9cdd8; border-radius: 9px; background: #fff; resize: vertical; width: 100%; }
+.kpp-rates { margin: 0; padding: 10px 12px; border: 1px solid var(--kpp-line); border-radius: 12px; display: flex; flex-direction: column; gap: 6px; }
+.kpp-rates legend { padding: 0 4px; font-size: 12px; color: var(--kpp-mute); font-weight: 600; }
+.kpp-rate { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 13px; }
+.kpp-dots { display: flex; gap: 4px; }
+.kpp-dots label { position: relative; cursor: pointer; }
+.kpp-dots input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.kpp-dots b { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 8px; border: 1px solid #c9cdd8; font-weight: 600; }
+.kpp-dots input:checked + b { background: var(--kpp-acc); border-color: var(--kpp-acc); color: #fff; }
+.kpp-dots input:focus-visible + b { outline: 3px solid #ffb800; outline-offset: 2px; }
+.kpp-dots label:hover b { border-color: var(--kpp-acc); }
+.kpp-send { padding-top: 6px; border-top: 1px solid var(--kpp-line); display: flex; flex-direction: column; gap: 8px; }
+.kpp-sendh { margin: 0; font-weight: 700; }
+.kpp-btns { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 6px; }
+.kpp-hint { margin: 0; font-size: 12px; color: var(--kpp-mute); }
+.kpp-status { margin: 0; padding: 8px 10px; border-radius: 9px; background: #eef7ee; color: #1e5a26; font-size: 13px; }
+.kpp-prev summary { cursor: pointer; font-size: 13px; color: var(--kpp-mute); }
+.kpp-prev pre { white-space: pre-wrap; font: 12px/1.45 ui-monospace, Menlo, Consolas, monospace; background: #f6f7fa; padding: 10px; border-radius: 9px; margin: 8px 0 0; }
+@media (max-width: 520px) { .kpp-btns { grid-template-columns: 1fr; } .kpp-rate { flex-direction: column; align-items: flex-start; gap: 4px; } .kpp-card { padding: 18px; } }
+
+/* Общий видеоплеер полной работы и кнопка запуска при запрете автовоспроизведения */
+.kp-player { position: relative; width: 100%; height: 100%; background: #000; }
+.kp-player video { display: block; width: 100%; height: 100%; object-fit: contain; background: #000; }
+.kp-fs { position: absolute; top: 10px; left: 10px; z-index: 2; min-height: 36px; padding: 0 12px; border: 0; border-radius: 8px; background: rgba(0,0,0,.6); color: #fff;
+  font: 600 13px system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; cursor: pointer; }
+.kp-fs:hover { background: rgba(0,0,0,.85); }
+.kp-play { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 6; min-height: 52px; padding: 0 22px; border: 0; border-radius: 999px;
+  background: rgba(255,255,255,.92); color: #000; font: 700 15px system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; cursor: pointer; box-shadow: 0 8px 30px rgba(0,0,0,.4); }
+.kp-play[hidden] { display: none; }

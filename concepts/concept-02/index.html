@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="ru" data-concept="2" data-base="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Кирилл.narod — домашняя страничка режиссёра · Вариант 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lobster&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/present.css">
+<style>
+*{box-sizing:border-box}
+body{margin:0;color:#fff;font:16px/1.4 'Times New Roman',Times,serif;background:#06063a}
+a{color:#00ffff}a:hover{color:#ffff00}
+:focus-visible{outline:2px dotted #ffff00;outline-offset:2px}
+.sky{background-color:#06063a;background-image:radial-gradient(#fff 1px,transparent 1.5px),radial-gradient(#8af 1px,transparent 1.5px);background-size:46px 46px,73px 73px;background-position:0 0,23px 31px;animation:drift 90s linear infinite}
+@keyframes drift{to{background-position:460px 0,-292px 31px}}
+.mq{background:#ff0000;border-bottom:3px ridge #ffff00;overflow:hidden;padding:6px 0;font:11px 'Press Start 2P',monospace;color:#ffff00}
+.mq span{display:inline-block;white-space:nowrap;animation:mq 28s linear infinite}
+@keyframes mq{to{transform:translateX(-50%)}}
+.blink{animation:bl 1.2s steps(1) infinite}@keyframes bl{50%{opacity:0}}
+.rb{background:linear-gradient(90deg,#ff0080,#ff8c00,#ffee00,#3cff00,#00e5ff,#a200ff,#ff0080);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:rb 6s linear infinite;filter:drop-shadow(3px 3px 0 #2a00a8)}
+@keyframes rb{to{background-position:200% 0}}
+/* desktop */
+.desk{position:relative;min-height:calc(100vh - 80px);padding:16px 16px 70px}
+.icons{position:absolute;left:16px;top:16px;display:flex;flex-direction:column;gap:14px;z-index:1;width:104px}
+.ic{display:flex;flex-direction:column;align-items:center;gap:4px;padding:4px;background:none;border:0;color:#fff;cursor:pointer;font:12px Tahoma,Verdana,sans-serif;text-shadow:1px 1px 0 #000}
+.ic span{padding:1px 3px}
+.ic:hover span,.ic:focus-visible span{background:#000080}
+.ic:hover svg{transform:translateY(-2px) rotate(-4deg)}
+.ic svg{transition:transform .15s}
+.logo{position:absolute;right:24px;top:10px;font:400 clamp(44px,6vw,84px) 'Lobster',cursive;margin:0;text-align:right;line-height:1;pointer-events:none}
+.logo small{display:block;font:12px 'Press Start 2P',monospace;color:#ffff00;text-shadow:2px 2px 0 #f00;margin-top:8px}
+/* windows */
+.win{position:absolute;background:#c0c0c0;color:#000;border:2px solid;border-color:#fff #404040 #404040 #fff;box-shadow:6px 6px 0 rgba(0,0,0,.85);display:flex;flex-direction:column;min-width:260px;font:13px Tahoma,Verdana,sans-serif}
+.win[hidden]{display:none}
+.win.pop{animation:pop .22s steps(3)}
+@keyframes pop{from{transform:scale(.6);opacity:.2}to{transform:none;opacity:1}}
+.tb{display:flex;justify-content:space-between;align-items:center;gap:8px;background:linear-gradient(90deg,#808080,#b5b5b5);color:#fff;padding:3px 3px 3px 8px;font-weight:700;cursor:move;user-select:none;touch-action:none}
+.win.act .tb{background:linear-gradient(90deg,#000080,#1084d0)}
+.tb .bt{display:flex;gap:3px}
+.b3{border:2px solid;border-color:#fff #404040 #404040 #fff;background:#c0c0c0;color:#000;cursor:pointer;font:700 12px Tahoma,Verdana,sans-serif}
+.b3:active{border-color:#404040 #fff #fff #404040}
+.b3:hover{background:#d4d4d4}
+.tb .b3{width:22px;height:20px;padding:0;line-height:1}
+.wb{padding:6px;overflow:auto}
+.inset{background:#fff;border:2px solid;border-color:#404040 #fff #fff #404040}
+/* player */
+.screen{position:relative;background:#000;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer}
+.screen img,.screen video{width:100%;height:100%;object-fit:cover}
+.screen .fit{object-fit:contain}
+.screen [hidden]{display:none}
+.screen .crt{animation:crt .35s steps(4)}
+.props .kp-player{aspect-ratio:16/9;height:auto}
+@keyframes crt{0%{clip-path:inset(48% 0 48% 0);filter:brightness(3)}60%{clip-path:inset(0);filter:brightness(1.6)}100%{filter:none}}
+.osd{position:absolute;top:6px;left:10px;font:26px 'VT323',monospace;color:#3cff00;text-shadow:0 0 6px #3cff00}
+.info{display:flex;align-items:center;gap:10px;padding:4px 2px}
+.info b{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.eq{display:flex;align-items:flex-end;gap:2px;height:24px;background:#000;padding:2px 4px}
+.eq i{display:block;width:5px;background:#3cff00;animation:eq .9s ease-in-out infinite alternate}
+@keyframes eq{from{height:3px}to{height:20px}}
+.ctl{display:flex;gap:4px;flex-wrap:wrap}
+.ctl .b3{min-height:40px;min-width:48px;padding:0 10px}
+/* playlist */
+.pl{list-style:none;margin:0;padding:2px;background:#000;font:19px 'VT323',monospace}
+.pl button{display:flex;width:100%;gap:8px;padding:3px 6px;border:0;background:transparent;color:#3cff00;font:inherit;text-align:left;cursor:pointer;min-height:30px;align-items:center}
+.pl button span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pl button:hover{background:#000080;color:#fff}
+.pl button[aria-current]{background:#3cff00;color:#000}
+.note{font-size:12px;color:#333;margin:6px 2px}
+.txt{font:15px 'Courier New',monospace;white-space:pre-wrap;padding:10px;margin:0;min-height:160px}
+.folder{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:10px;padding:12px}
+.folder div{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;font-size:11px;color:#555}
+.gb label{display:flex;flex-direction:column;gap:2px;margin-bottom:8px}
+.gb input,.gb select,.gb textarea{font:14px Tahoma,Verdana,sans-serif;padding:5px;border:2px solid;border-color:#404040 #fff #fff #404040;background:#fff}
+.gb .row{display:flex;gap:6px;flex-wrap:wrap}
+.gb .row .b3{min-height:36px;padding:0 12px}
+.gb [data-kp-status]{background:#ffffcc;border:1px solid #000;padding:6px;margin:8px 0 0}
+.props{display:grid;grid-template-columns:180px 1fr;gap:10px}
+.props img{width:100%;border:2px solid;border-color:#404040 #fff #fff #404040}
+.props dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:3px 10px}
+.props dt{font-weight:700}
+.props dd{margin:0}
+/* taskbar */
+.task{position:fixed;left:0;right:0;bottom:0;z-index:40;height:44px;display:flex;align-items:center;gap:4px;padding:3px 4px;background:#c0c0c0;border-top:2px solid #fff;font:13px Tahoma,Verdana,sans-serif;color:#000}
+.start{display:flex;align-items:center;gap:6px;height:36px;padding:0 10px;font-weight:700}
+.tasks{flex:1;display:flex;gap:4px;overflow:auto}
+.tasks .b3{height:36px;padding:0 10px;white-space:nowrap;font-weight:400}
+.tasks .b3.act{border-color:#404040 #fff #fff #404040;background:#e0e0e0;font-weight:700}
+.clock{height:36px;display:flex;align-items:center;padding:0 10px;border:2px solid;border-color:#404040 #fff #fff #404040}
+.smenu{position:fixed;left:4px;bottom:46px;z-index:41;width:230px;background:#c0c0c0;border:2px solid;border-color:#fff #404040 #404040 #fff;box-shadow:4px 4px 0 #000;display:flex;color:#000}
+.smenu[hidden]{display:none}
+.smenu .side{width:28px;background:linear-gradient(0deg,#000080,#1084d0);color:#fff;writing-mode:vertical-rl;transform:rotate(180deg);font:700 14px Tahoma;padding:8px 4px}
+.smenu ul{list-style:none;margin:0;padding:4px;flex:1}
+.smenu button{width:100%;text-align:left;padding:8px;background:none;border:0;font:14px Tahoma;cursor:pointer;color:#000}
+.smenu button:hover{background:#000080;color:#fff}
+/* homepage below */
+.home{max-width:960px;margin:0 auto;padding:40px 16px 90px;display:grid;grid-template-columns:1fr 260px;gap:24px}
+.box{border:3px ridge #c0c0c0;background:#000040;padding:14px}
+.box h2{margin:0 0 10px;font:14px 'Press Start 2P',monospace;color:#ffff00}
+.news p{margin:0 0 10px}.news b{color:#3cff00}
+[data-reveal]{clip-path:inset(0 0 100% 0);transition:clip-path 1.6s steps(8)}
+[data-reveal].is-in{clip-path:inset(0 0 0 0)}
+.badges{display:flex;flex-wrap:wrap;gap:6px}
+.badges span{width:88px;height:31px;border:1px solid #fff;font:9px/13px Verdana;text-align:center;padding:2px}
+.pop2{position:fixed;right:20px;bottom:64px;z-index:30;width:300px}
+@media (max-width:760px){
+  .desk{min-height:auto;padding:12px 8px 60px}
+  .icons{position:static;flex-direction:row;flex-wrap:wrap;width:auto;justify-content:space-around;margin-bottom:12px}
+  .logo{position:static;text-align:center;margin:6px 0 10px}
+  .win{position:relative!important;left:auto!important;top:auto!important;width:auto!important;margin:0 0 12px;max-width:none}
+  .tb{cursor:default}
+  .props{grid-template-columns:1fr}
+  .home{grid-template-columns:1fr}
+  .pop2{left:8px;right:8px;width:auto;bottom:52px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}[data-reveal]{clip-path:none}}
+</style>
+</head>
+<body class="sky">
+<div class="mq" aria-label="Добро пожаловать на домашнюю страничку режиссёра Кирилла"><span aria-hidden="true">★ ДОБРО ПОЖАЛОВАТЬ НА ДОМАШНЮЮ СТРАНИЧКУ РЕЖИССЁРА КИРИЛЛА ★ ТУТ МОИ РОЛИКИ И ФИЛЬМЫ ★ ЖМИ НА ПЛЕЙЛИСТ ★ ОТКРЫВАЙ ПАПКИ НА РАБОЧЕМ СТОЛЕ ★&nbsp;&nbsp;★ ДОБРО ПОЖАЛОВАТЬ НА ДОМАШНЮЮ СТРАНИЧКУ РЕЖИССЁРА КИРИЛЛА ★ ТУТ МОИ РОЛИКИ И ФИЛЬМЫ ★ ЖМИ НА ПЛЕЙЛИСТ ★ ОТКРЫВАЙ ПАПКИ НА РАБОЧЕМ СТОЛЕ ★&nbsp;&nbsp;</span></div>
+
+<main class="desk" id="desk">
+  <h1 class="logo"><span class="rb">Кирилл</span><small>РЕЖИССЁР · СЦЕНАРИСТ · AI</small></h1>
+  <nav class="icons" aria-label="Рабочий стол">
+    <button class="ic" data-open="w-player"><svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect x="3" y="5" width="34" height="30" fill="#222" stroke="#000" stroke-width="2"/><rect x="7" y="9" width="26" height="22" fill="#3a6ea5"/><path d="M16 14l10 6-10 6z" fill="#fff"/></svg><span>Режиссура</span></button>
+    <button class="ic" data-open="w-script"><svg width="36" height="42" viewBox="0 0 36 42" aria-hidden="true"><path d="M2 2h22l10 10v28H2z" fill="#fff" stroke="#000" stroke-width="2"/><path d="M8 18h20M8 24h20M8 30h14" stroke="#00f" stroke-width="2"/></svg><span>Сценарии.txt</span></button>
+    <button class="ic" data-open="w-ai"><svg width="44" height="36" viewBox="0 0 44 36" aria-hidden="true"><path d="M2 6h14l4 4h22v24H2z" fill="#f7d34a" stroke="#000" stroke-width="2"/><path d="M2 12h40" stroke="#b8901a" stroke-width="2"/></svg><span>AI_опыты</span></button>
+    <button class="ic" data-open="w-about"><svg width="36" height="42" viewBox="0 0 36 42" aria-hidden="true"><path d="M2 2h22l10 10v28H2z" fill="#ffffcc" stroke="#000" stroke-width="2"/><circle cx="18" cy="22" r="6" fill="#f90"/></svg><span>Обо_мне.txt</span></button>
+    <button class="ic" data-open="w-guest"><svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect x="4" y="6" width="32" height="28" fill="#c00" stroke="#000" stroke-width="2"/><path d="M4 8l16 13L36 8" stroke="#fff" stroke-width="2" fill="none"/></svg><span>Гостевая книга</span></button>
+  </nav>
+
+  <section class="win act" id="w-player" style="left:140px;top:16px;width:min(640px,52vw)" aria-label="Плеер">
+    <div class="tb"><span>КирПлеер 2.0 — <span id="file">gornaya.avi</span></span><span class="bt"><button class="b3" data-min aria-label="Свернуть">_</button><button class="b3" data-x aria-label="Закрыть">×</button></span></div>
+    <div class="wb">
+      <div class="screen inset" id="screen" title="Открыть свойства проекта"><video id="pv" hidden aria-hidden="true"></video><img id="shot" alt=""><button class="kp-play" id="pvplay" type="button" hidden>▶ Пуск</button><span class="osd" id="osd">01 ▶</span></div>
+      <div class="info"><b id="ptitle"></b><span class="eq" aria-hidden="true"><i style="animation-delay:-.1s"></i><i style="animation-delay:-.5s"></i><i style="animation-delay:-.3s"></i><i style="animation-delay:-.7s"></i><i style="animation-delay:-.2s"></i></span><span id="pdur" style="font:20px 'VT323',monospace"></span></div>
+      <div class="ctl"><button class="b3" id="prev" aria-label="Предыдущая работа">|◀◀</button><button class="b3" id="props">▶ Открыть проект</button><button class="b3" id="next" aria-label="Следующая работа">▶▶|</button><button class="b3" id="snd" style="margin-left:auto">Звуки 2003: выкл</button></div>
+    </div>
+  </section>
+
+  <section class="win" id="w-list" style="left:calc(140px + min(640px,52vw) + 18px);top:120px;width:300px" aria-label="Плейлист">
+    <div class="tb"><span>Все_работы.m3u</span><span class="bt"><button class="b3" data-min aria-label="Свернуть">_</button><button class="b3" data-x aria-label="Закрыть">×</button></span></div>
+    <div class="wb"><ol class="pl inset" id="pl"></ol>
+      <div class="ctl" style="margin-top:6px"><button class="b3" data-filter="all">Все</button><button class="b3" data-filter="ads">Реклама</button><button class="b3" data-filter="film">Кино</button><button class="b3" data-filter="exp">Опыты</button></div></div>
+  </section>
+
+  <section class="win" id="w-script" hidden style="left:180px;top:80px;width:min(520px,80vw)" aria-label="Сценарии">
+    <div class="tb"><span>Сценарии.txt — Блокнот</span><span class="bt"><button class="b3" data-min aria-label="Свернуть">_</button><button class="b3" data-x aria-label="Закрыть">×</button></span></div>
+    <div class="wb"><pre class="txt inset">СЦЕНАРИИ КИРИЛЛА
+================
+
+Здесь будут сценарии, синопсисы и концепции.
+
+[ДЕМО: материалы ещё не получены.
+ Структура: логлайн / синопсис / страницы / статус]
+
+P.S. Не закрывайте блокнот, он стесняется.</pre></div>
+  </section>
+
+  <section class="win" id="w-ai" hidden style="left:220px;top:110px;width:min(480px,80vw)" aria-label="AI-опыты">
+    <div class="tb"><span>C:\Кирилл\AI_опыты</span><span class="bt"><button class="b3" data-min aria-label="Свернуть">_</button><button class="b3" data-x aria-label="Закрыть">×</button></span></div>
+    <div class="wb inset"><div class="folder"><div><svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect x="4" y="4" width="32" height="32" fill="#ddd" stroke="#999" stroke-dasharray="3 3"/></svg>скоро_01.mp4</div><div><svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect x="4" y="4" width="32" height="32" fill="#ddd" stroke="#999" stroke-dasharray="3 3"/></svg>скоро_02.mp4</div><div><svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect x="4" y="4" width="32" height="32" fill="#ddd" stroke="#999" stroke-dasharray="3 3"/></svg>скоро_03.mp4</div></div>
+    <p class="note">Объектов: 0 · ДЕМО: AI-работы ещё не предоставлены.</p></div>
+  </section>
+
+  <section class="win" id="w-about" hidden style="left:260px;top:60px;width:min(460px,80vw)" aria-label="Обо мне">
+    <div class="tb"><span>Обо_мне.txt — Блокнот</span><span class="bt"><button class="b3" data-min aria-label="Свернуть">_</button><button class="b3" data-x aria-label="Закрыть">×</button></span></div>
+    <div class="wb"><pre class="txt inset">Привет, меня зовут Кирилл!
+Я режиссёр, сценарист и AI-креатор.
+
+Снимаю рекламу («Горная», AHMAD TEA, Twinby,
+AliExpress, Dodo GO, Bupas Gym), кино («Петля»,
+«История одной смерти») и эксперименты.
+
+Открой «Режиссура» — там всё видно.</pre></div>
+  </section>
+
+  <section class="win" id="w-guest" hidden style="left:300px;top:40px;width:min(420px,86vw)" aria-label="Гостевая книга">
+    <div class="tb"><span>Гостевая книга (на самом деле — заявка)</span><span class="bt"><button class="b3" data-min aria-label="Свернуть">_</button><button class="b3" data-x aria-label="Закрыть">×</button></span></div>
+    <form class="wb gb" data-kp-contact>
+      <label>Ваше имя:<input name="name"></label>
+      <label>Как с вами связаться:<input name="contact" placeholder="Telegram / телефон / e-mail"></label>
+      <label>Что снимаем:<select name="project"><option>Реклама</option><option>Кино</option><option>Клип</option><option>AI-проект</option><option>Сценарий</option></select></label>
+      <label>Сообщение:<textarea name="message" rows="4"></textarea></label>
+      <div class="row"><button class="b3" data-act="tg" type="button">Отправить в Telegram</button><button class="b3" data-act="mail" type="button">Письмом</button><button class="b3" data-act="copy" type="button">Копировать</button></div>
+      <p data-kp-status role="status" aria-live="polite" hidden></p>
+      <p class="note">Контакт Кирилла добавим после согласования: пока Telegram откроет выбор чата.</p>
+    </form>
+  </section>
+
+  <section class="win" id="w-props" hidden style="left:200px;top:60px;width:min(560px,92vw)" aria-label="Свойства проекта">
+    <div class="tb"><span id="prt">Свойства</span><span class="bt"><button class="b3" data-x aria-label="Закрыть">×</button></span></div>
+    <div class="wb"><div class="props"><div id="prm"></div><dl id="prd"></dl></div>
+      <p class="note" id="prn"></p>
+      <div class="ctl"><a class="b3" id="prs" target="_blank" rel="noopener" style="display:flex;align-items:center;padding:0 10px;min-height:36px;text-decoration:none;color:#000">Открыть оригинал (Яндекс Диск) ↗</a><button class="b3" id="prnext">Следующий ▶</button></div></div>
+  </section>
+</main>
+
+<div class="home" id="home">
+  <div class="box news" data-reveal><h2>НОВОСТИ САЙТА</h2>
+    <p><b>[Обновление]</b> Добавлены 10 работ: реклама, диплом «Петля», короткий метр, пародия на сериалы нулевых и этюд.</p>
+    <p><b>[В разработке]</b> Разделы «Сценарии» и «AI_опыты» ждут материалов.</p>
+    <p><b>[Совет]</b> Окна можно двигать за синюю полоску. Закрытые окна живут в меню «Пуск».</p></div>
+  <div class="box" data-reveal><h2>СЧЁТЧИК</h2><p style="font:22px 'VT323',monospace;color:#f00;margin:0">??????</p><p style="margin:6px 0 0;color:#aaa;font-size:13px">счётчик сломался в 2004</p>
+    <h2 style="margin-top:16px">КНОПКИ</h2><div class="badges"><span style="background:#000;color:#ff0">СДЕЛАНО<br>В БЛОКНОТЕ</span><span style="background:#800">ЛУЧШЕ ВСЕГО<br>в 1024×768</span></div></div>
+</div>
+
+<div class="win pop2" id="w-pop" role="dialog" aria-label="Поздравление" hidden>
+  <div class="tb" style="background:linear-gradient(90deg,#800000,#d01010)"><span>Сообщение веб-страницы</span><span class="bt"><button class="b3" data-x aria-label="Закрыть">×</button></span></div>
+  <div class="wb" style="display:flex;gap:10px"><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true" style="flex:none"><path d="M16 2l14 26H2z" fill="#ffd400" stroke="#000" stroke-width="2"/><path d="M16 11v9M16 23v2" stroke="#000" stroke-width="3"/></svg><p style="margin:0"><b>ПОЗДРАВЛЯЕМ!</b> Вы нашли режиссёра. Чтобы забрать приз, обсудите с ним проект.</p></div>
+  <div class="ctl" style="justify-content:flex-end;padding:0 8px 8px"><button class="b3" id="prize">Забрать приз</button><button class="b3" data-x>Отмена</button></div>
+</div>
+
+<div class="smenu" id="smenu" hidden><div class="side">Кирилл 98</div><ul>
+  <li><button data-open="w-player">Режиссура (плеер)</button></li><li><button data-open="w-list">Все_работы.m3u</button></li><li><button data-open="w-script">Сценарии.txt</button></li><li><button data-open="w-ai">AI_опыты</button></li><li><button data-open="w-about">Обо_мне.txt</button></li><li><button data-open="w-guest">Гостевая книга</button></li></ul></div>
+<div class="task"><button class="b3 start" id="start" aria-expanded="false" aria-controls="smenu"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><rect width="7" height="7" fill="#f33"/><rect x="9" width="7" height="7" fill="#3c3"/><rect y="9" width="7" height="7" fill="#36f"/><rect x="9" y="9" width="7" height="7" fill="#fc0"/></svg>Пуск</button><div class="tasks" id="tasks"></div><span class="clock" id="clock">00:00</span></div>
+
+<script src="../../assets/videos/manifest.js"></script>
+<script src="../../js/data.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/common.js"></script>
+<script src="../../js/present.js"></script>
+<script>
+(function(){
+  var $ = KP.qs, W = KP.works, list = W.slice(), i = 0, snd = false, ctx;
+  var files = {gornaya:'gornaya_borba.avi',ahmad:'ahmad_katok.avi',twinby:'twinby_03.mov',aliexpress:'aliexpress_sport.mpg',dodo:'dodo_go.mov',bupas:'bupas_gym.wmv',petlya:'PETLYA_FINAL_final2.avi',istoriya:'istoriya.avi',parody:'parodiya_00.rm',navsyu:'na_vsyu_zhizn.mpg'};
+  function beep(f){ if(!snd) return; try{ var C=window.AudioContext||window.webkitAudioContext; ctx=ctx||new C(); var o=ctx.createOscillator(),g=ctx.createGain(); o.type='square'; o.frequency.setValueAtTime(f||660,ctx.currentTime); o.frequency.exponentialRampToValueAtTime((f||660)*2,ctx.currentTime+.12); g.gain.setValueAtTime(.035,ctx.currentTime); g.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+.2); o.connect(g); g.connect(ctx.destination); o.start(); o.stop(ctx.currentTime+.2);}catch(e){} }
+  /* оконный менеджер */
+  var z = 10, wins = KP.qsa('.win:not(.pop2)');
+  function focusW(w){ wins.forEach(function(x){ x.classList.remove('act'); }); w.classList.add('act'); w.style.zIndex = ++z; renderTasks(); }
+  function openW(id){ var w = document.getElementById(id); w.hidden = false; w.dataset.min=''; w.classList.remove('pop'); void w.offsetWidth; w.classList.add('pop'); focusW(w); beep(520); if (innerWidth<=760) w.scrollIntoView({behavior:KP.reduced?'auto':'smooth',block:'start'}); }
+  function closeW(w){ w.hidden = true; renderTasks(); }
+  function renderTasks(){ var t = $('#tasks'); t.innerHTML=''; wins.forEach(function(w){ if (w.hidden && !w.dataset.min) return; var b=document.createElement('button'); b.className='b3'+(w.classList.contains('act')&&!w.hidden?' act':''); b.textContent=w.querySelector('.tb span').textContent.slice(0,22); b.addEventListener('click',function(){ if(w.hidden){ w.hidden=false; w.dataset.min=''; focusW(w);} else if(w.classList.contains('act')){ w.hidden=true; w.dataset.min='1'; renderTasks(); } else focusW(w); }); t.appendChild(b); }); }
+  wins.forEach(function(w){
+    w.addEventListener('pointerdown', function(){ focusW(w); });
+    var x = w.querySelector('[data-x]'); if (x) x.addEventListener('click', function(e){ e.stopPropagation(); closeW(w); });
+    var m = w.querySelector('[data-min]'); if (m) m.addEventListener('click', function(e){ e.stopPropagation(); w.hidden=true; w.dataset.min='1'; renderTasks(); });
+    var tb = w.querySelector('.tb'), sx, sy, ox, oy, drag=false;
+    tb.addEventListener('pointerdown', function(e){ if (innerWidth<=760 || e.target.closest('button')) return; drag=true; sx=e.clientX; sy=e.clientY; ox=w.offsetLeft; oy=w.offsetTop; tb.setPointerCapture(e.pointerId); });
+    tb.addEventListener('pointermove', function(e){ if(!drag) return; w.style.left=Math.max(0,ox+e.clientX-sx)+'px'; w.style.top=Math.max(0,oy+e.clientY-sy)+'px'; });
+    tb.addEventListener('pointerup', function(){ drag=false; });
+  });
+  KP.qsa('[data-open]').forEach(function(b){ b.addEventListener('click', function(){ openW(b.dataset.open); $('#smenu').hidden=true; $('#start').setAttribute('aria-expanded',false); }); });
+  $('#start').addEventListener('click', function(){ var m=$('#smenu'); m.hidden=!m.hidden; this.setAttribute('aria-expanded',!m.hidden); beep(440); });
+  document.addEventListener('click', function(e){ if(!e.target.closest('#smenu,#start')) { $('#smenu').hidden=true; $('#start').setAttribute('aria-expanded',false);} });
+  function clock(){ var d=new Date(); $('#clock').textContent=('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2); } clock(); setInterval(clock, 15000);
+  /* плеер и плейлист */
+  function renderList(){ $('#pl').innerHTML = list.map(function(w,k){ return '<li><button type="button" data-k="'+k+'"'+(list[k]===cur()?' aria-current="true"':'')+'><span>'+(k+1)+'. '+KP.esc(w.title)+'</span>'+KP.esc((w.dur||'—').split(' ')[0])+'</button></li>'; }).join('');
+    KP.qsa('#pl button').forEach(function(b){ b.addEventListener('click', function(){ i=+b.dataset.k; show(); beep(); }); }); }
+  function cur(){ return list[i]; }
+  var pv = KP.registerBg($('#pv'));
+  $('#pvplay').addEventListener('click', function(e){ e.stopPropagation(); KP.tryPlay(pv).then(function(ok){ $('#pvplay').hidden = ok; }); });
+  function show(){ var w = cur(), img=$('#shot'), src = KP.previewSrc(w), el = src ? pv : img;
+    if (src) { pv.poster = KP.posterOf(w,0); pv.src = src; pv.loop = true; pv.hidden = false; img.hidden = true; KP.tryPlay(pv).then(function(ok){ $('#pvplay').hidden = ok; }); }
+    else { pv.pause(); pv.removeAttribute('src'); pv.load(); pv.hidden = true; img.hidden = false; img.src=KP.poster(w.posters[0]); img.alt=w.alt[0]; }
+    el.classList.toggle('fit', w.aspect.indexOf('16:9')<0);
+    el.classList.remove('crt'); void el.offsetWidth; el.classList.add('crt');
+    $('#file').textContent=files[w.id]; $('#osd').textContent=(i<9?'0':'')+(i+1)+' ▶'; $('#ptitle').textContent=w.title+' — '+w.kind.toLowerCase(); $('#pdur').textContent=(w.dur||'—').split(' · ')[0]; renderList(); }
+  $('#prev').addEventListener('click', function(){ i=(i-1+list.length)%list.length; show(); beep(); });
+  $('#next').addEventListener('click', function(){ i=(i+1)%list.length; show(); beep(); });
+  $('#snd').addEventListener('click', function(){ snd=!snd; this.textContent=snd?'Звуки 2003: ВКЛ':'Звуки 2003: выкл'; beep(880); });
+  KP.qsa('[data-filter]').forEach(function(b){ b.addEventListener('click', function(){ var f=b.dataset.filter; list = f==='all'?W.slice():W.filter(function(w){return w.cat===f;}); i=0; show(); beep(); }); });
+  /* свойства проекта */
+  function props(w){ $('#prt').textContent='Свойства: '+files[w.id]; $('#prm').innerHTML=KP.mediaHTML(w);
+    $('#prd').innerHTML=[['Название',w.title],['Тип',w.kind],['Заказчик',w.client],['Длительность',w.dur||'уточняется'],['Кадр',w.aspect],['Загружен',w.upload],['Роль','уточняется']].map(function(r){return '<dt>'+r[0]+':</dt><dd>'+KP.esc(r[1])+'</dd>';}).join('');
+    $('#prn').textContent=[w.note,KP.sourceNote(w)].filter(Boolean).join(' '); $('#prs').href=w.source; openW('w-props'); KP.holdBg(); KP.startPlayer($('#w-props')); }
+  $('#w-props [data-x]').addEventListener('click', function(){ KP.qsa('#w-props video').forEach(function(v){ v.pause(); }); KP.releaseBg(); });
+  $('#props').addEventListener('click', function(){ props(cur()); });
+  $('#screen').addEventListener('click', function(){ props(cur()); });
+  $('#prnext').addEventListener('click', function(){ i=(i+1)%list.length; show(); props(cur()); });
+  /* поп-ап */
+  var pop = $('#w-pop'); setTimeout(function(){ pop.hidden=false; pop.classList.add('pop'); }, 2500);
+  KP.qsa('[data-x]', pop).forEach(function(b){ b.addEventListener('click', function(){ pop.hidden=true; }); });
+  $('#prize').addEventListener('click', function(){ pop.hidden=true; openW('w-guest'); });
+  show(); focusW($('#w-player'));
+  KP.wireContact($('[data-kp-contact]'), 'Кирилл.narod');
+  KP.reveal();
+})();
+</script>
+</body>
+</html>

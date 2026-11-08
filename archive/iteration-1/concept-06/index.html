@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="ru" data-concept="6" data-base="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Лайтбокс Кирилла · Вариант 6</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=IBM+Plex+Sans+Condensed:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/present.css">
+<style>
+:root{--ink:#1b1712;--red:#c4231b;--amber:#e58a2b;--mute:#6f6556;--pad:clamp(16px,3vw,48px)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--ink);font:17px/1.5 'IBM Plex Sans Condensed',system-ui,sans-serif;background:#f6eedd}
+.table{background:radial-gradient(ellipse 80% 70% at 50% 40%,#fffdf6 0%,#fbf3e2 45%,#efe2c6 100%);position:relative}
+.table::before{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(27,23,18,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(27,23,18,.05) 1px,transparent 1px);background-size:64px 64px}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--red);outline-offset:3px}
+.hand{font-family:'Caveat',cursive;font-weight:700;color:var(--red)}
+.mono{font:500 11px 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase}
+/* tape nav */
+.hd{position:sticky;top:0;z-index:40;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px var(--pad);background:rgba(246,238,221,.86);backdrop-filter:blur(6px);border-bottom:1px solid rgba(27,23,18,.1)}
+.logo{font:700 18px 'IBM Plex Sans Condensed';text-decoration:none;text-transform:uppercase;letter-spacing:.06em}
+.tapes{display:flex;flex-wrap:wrap;gap:8px}
+.tapes a{display:inline-flex;align-items:center;min-height:38px;padding:4px 14px;background:rgba(245,214,120,.75);font:500 15px 'IBM Plex Sans Condensed';text-decoration:none;transform:rotate(var(--r,-1deg));box-shadow:0 1px 2px rgba(0,0,0,.12);transition:transform .2s,background .2s}
+.tapes a:nth-child(2){--r:1.2deg}.tapes a:nth-child(3){--r:-.6deg}.tapes a:nth-child(4){--r:1.6deg}
+.tapes a:hover,.tapes a[aria-current]{background:#f5c94a;transform:rotate(0) translateY(-2px)}
+.tapes a.order{background:var(--red);color:#fff}
+/* hero */
+.hero{min-height:calc(100vh - 63px);padding:30px var(--pad) 40px;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:30px;align-items:center;overflow:hidden;position:relative}
+.hero>div:first-child{position:relative;z-index:3}
+.hero h1{margin:0;font:700 clamp(48px,6.4vw,112px)/.88 'IBM Plex Sans Condensed';text-transform:uppercase;letter-spacing:-.02em}
+.hero h1 .hand{display:block;font-size:.5em;text-transform:none;letter-spacing:0;transform:rotate(-3deg);margin:.1em 0 0 .2em}
+.hero p.lead{max-width:420px;font-size:19px;margin:22px 0 0}
+.strips{position:relative;height:min(70vh,640px)}
+.strip{position:absolute;left:-6%;right:-14%;display:flex;gap:0;padding:16px 10px;background:#2a1d10;transform:rotate(var(--rot));box-shadow:0 12px 30px rgba(60,40,10,.25)}
+.strip::before,.strip::after{content:"";position:absolute;left:0;right:0;height:10px;background:repeating-linear-gradient(90deg,transparent 0 10px,#f7ecd4 10px 20px,transparent 20px 30px);opacity:.85}
+.strip::before{top:3px}.strip::after{bottom:3px}
+.strip .code{position:absolute;left:24px;top:-1px;color:#e58a2b;font-size:9px}
+.neg{position:relative;flex:none;width:clamp(150px,14vw,230px);aspect-ratio:3/2;margin:0 6px;border:0;padding:0;background:#000;cursor:zoom-in;overflow:hidden}
+.neg img{width:100%;height:100%;object-fit:cover;filter:invert(1) sepia(.55) saturate(1.7) hue-rotate(-12deg) contrast(.92) brightness(1.05);transition:filter .6s}
+.neg::after{content:attr(data-n);position:absolute;right:4px;bottom:2px;font:500 9px 'IBM Plex Mono';color:#e58a2b}
+.neg:focus-visible img{filter:none}
+.s1{top:4%;--rot:-8deg}.s2{top:38%;--rot:4deg}.s3{top:70%;--rot:-3deg}
+.strip.in{animation:slide 1.2s cubic-bezier(.2,.8,.1,1) both}
+.s2.in{animation-delay:.12s;animation-name:slide2}.s3.in{animation-delay:.24s}
+@keyframes slide{from{transform:translateX(30%) rotate(var(--rot));opacity:0}}
+@keyframes slide2{from{transform:translateX(-30%) rotate(var(--rot));opacity:0}}
+.loupe{position:fixed;left:0;top:0;z-index:35;width:220px;height:220px;margin:-110px 0 0 -110px;border-radius:50%;border:10px solid #1b1712;box-shadow:0 0 0 2px #8a7a62,0 18px 40px rgba(0,0,0,.35),inset 0 0 30px rgba(0,0,0,.3);background-repeat:no-repeat;background-color:#000;pointer-events:none;opacity:0;transform:scale(.6);transition:opacity .2s,transform .25s}
+.loupe.on{opacity:1;transform:none}
+.loupe span{position:absolute;left:50%;bottom:-40px;transform:translateX(-50%);white-space:nowrap;font:700 22px 'Caveat';color:var(--red)}
+.tip{position:absolute;right:var(--pad);bottom:20px;transform:rotate(-2deg);font-size:24px}
+/* sections */
+.sec{padding:clamp(70px,9vw,120px) var(--pad);position:relative}
+.sh{display:flex;align-items:flex-end;gap:16px;margin-bottom:26px;flex-wrap:wrap}
+.sh h2{margin:0;font:700 clamp(44px,6.4vw,100px)/.9 'IBM Plex Sans Condensed';text-transform:uppercase;letter-spacing:-.02em}
+.sh .hand{font-size:clamp(24px,2.6vw,36px);transform:rotate(-2deg)}
+.sheet{background:#151210;color:#e9dcc3;padding:22px 18px 26px;margin-bottom:26px;box-shadow:0 14px 34px rgba(60,40,10,.25);position:relative}
+.sheet h3{margin:0 0 12px;display:flex;justify-content:space-between;gap:12px;font:500 13px 'IBM Plex Mono';letter-spacing:.1em;text-transform:uppercase;color:#e58a2b}
+.frames{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px}
+.fr{position:relative;border:0;padding:0;background:none;color:inherit;text-align:left;cursor:pointer}
+.fr .pic{position:relative;aspect-ratio:3/2;overflow:hidden;background:#000;outline:6px solid #2a1d10}
+.fr img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.8,.1,1)}
+.fr:hover img{transform:scale(1.05)}
+.fr .cap{display:flex;justify-content:space-between;gap:8px;margin-top:10px;font:500 15px 'IBM Plex Sans Condensed'}
+.fr .cap small{font:500 11px 'IBM Plex Mono';color:#a99878;text-transform:uppercase}
+.fr svg.wax{position:absolute;inset:-12px;width:calc(100% + 24px);height:calc(100% + 24px);pointer-events:none;overflow:visible}
+.fr svg.wax path{fill:none;stroke:var(--red);stroke-width:4;stroke-linecap:round;stroke-dasharray:900;stroke-dashoffset:900;transition:stroke-dashoffset .7s ease}
+.fr:hover svg.wax path,.fr:focus-visible svg.wax path{stroke-dashoffset:0}
+.fr .best{position:absolute;right:-6px;top:-14px;font:700 22px 'Caveat';color:#ff5a48;transform:rotate(6deg);opacity:0;transition:opacity .3s}
+.fr:hover .best{opacity:1}
+[data-reveal]{opacity:0;transform:translateY(30px) rotate(.6deg);transition:opacity .9s,transform 1s cubic-bezier(.2,.8,.1,1)}
+[data-reveal].is-in{opacity:1;transform:none}
+.page{max-width:780px;background:#fffdf8;padding:clamp(24px,4vw,56px);box-shadow:0 10px 30px rgba(60,40,10,.18);position:relative;font:16px/1.7 'IBM Plex Mono',monospace;transform:rotate(-.6deg)}
+.page::before{content:"";position:absolute;top:-14px;left:40px;width:22px;height:60px;border:3px solid #8b8b8b;border-radius:12px}
+.page .hand{font-size:28px;display:block;margin-top:14px}
+.leaks{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.leak{aspect-ratio:3/2;background:#1a120c;position:relative;overflow:hidden;outline:6px solid #2a1d10;border:0;padding:0;cursor:pointer;color:#fff}
+.leak::before{content:"";position:absolute;inset:-20%;background:radial-gradient(circle at var(--x,30%) var(--y,40%),rgba(255,120,30,.9),rgba(255,40,20,.4) 30%,transparent 60%);transition:all .8s}
+.leak:hover::before{--x:70%;--y:60%}
+.leak span{position:absolute;left:12px;bottom:10px;font:500 11px 'IBM Plex Mono';text-transform:uppercase}
+.notes{display:grid;grid-template-columns:1.2fr 1fr;gap:30px;align-items:start}
+.notes p.big{margin:0;font-size:clamp(24px,2.6vw,36px);line-height:1.25}
+.notes .sticky{background:#fff3a6;padding:18px;transform:rotate(2deg);box-shadow:0 8px 20px rgba(60,40,10,.15);font:500 26px/1.25 'Caveat'}
+form.lab{max-width:900px;background:#fffdf8;border:2px solid var(--ink);padding:clamp(18px,3vw,34px);display:grid;grid-template-columns:1fr 1fr;gap:14px;position:relative;box-shadow:8px 8px 0 rgba(27,23,18,.12)}
+.lab .ttl{grid-column:1/-1;display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid var(--ink);padding-bottom:10px}
+.lab .ttl b{font:700 24px 'IBM Plex Sans Condensed';text-transform:uppercase}
+.lab label{display:flex;flex-direction:column;gap:4px;font:500 12px 'IBM Plex Mono';text-transform:uppercase;letter-spacing:.06em}
+.lab input,.lab textarea{font:17px 'IBM Plex Sans Condensed';border:0;border-bottom:1px solid var(--ink);padding:8px 2px;background:transparent}
+.lab input:focus,.lab textarea:focus{outline:0;border-color:var(--red);background:#fff6e8}
+.lab .full{grid-column:1/-1}
+.chk{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:10px;border:0;padding:0;margin:0}
+.chk legend{font:500 12px 'IBM Plex Mono';text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.chk label{flex-direction:row;align-items:center;gap:6px;font:500 16px 'IBM Plex Sans Condensed';text-transform:none;letter-spacing:0;padding:8px 12px;border:1px solid var(--ink);cursor:pointer}
+.chk input{accent-color:var(--red);width:18px;height:18px}
+.btn{min-height:48px;padding:0 20px;border:2px solid var(--ink);background:transparent;color:var(--ink);font:700 15px 'IBM Plex Sans Condensed';text-transform:uppercase;letter-spacing:.06em;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+.btn:hover{background:var(--ink);color:#fbf3e2}
+.btn.r{background:var(--red);border-color:var(--red);color:#fff}
+.btn.r:hover{background:var(--ink);border-color:var(--ink)}
+.row{display:flex;flex-wrap:wrap;gap:10px}
+[data-kp-status]{grid-column:1/-1;margin:0;font:700 24px 'Caveat';color:var(--red)}
+.note{color:var(--mute);font-size:14px}
+.stamp{position:absolute;right:20px;top:-18px;transform:rotate(8deg);border:3px solid var(--red);color:var(--red);padding:4px 10px;font:700 14px 'IBM Plex Mono';background:#fffdf8}
+/* darkroom */
+.dark{position:fixed;inset:0;z-index:80;background:#1a0302;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:60px 20px 20px;color:#ffb3a6}
+.dark[hidden]{display:none}
+.dark .line{position:absolute;left:0;right:0;top:46px;height:2px;background:#5a1a12}
+.print{position:relative;background:#f4ecdc;padding:14px 14px 50px;width:min(860px,94vw);box-shadow:0 20px 50px rgba(0,0,0,.6);transform-origin:top center;animation:swing 2.4s ease-out both}
+@keyframes swing{0%{transform:rotate(4deg)}40%{transform:rotate(-2deg)}70%{transform:rotate(1deg)}100%{transform:none}}
+.print::before,.print::after{content:"";position:absolute;top:-22px;width:16px;height:40px;background:#c9a77a;border-radius:3px}
+.print::before{left:22%}.print::after{right:22%}
+.print .ph{aspect-ratio:16/9;background:#000;overflow:hidden}
+.print .ph img,.print .ph video{width:100%;height:100%;object-fit:cover}
+.print .ph img.dev{animation:dev 2.2s ease-out both}
+@keyframes dev{0%{filter:invert(1) sepia(.55) saturate(1.7) hue-rotate(-12deg) brightness(.2)}45%{filter:invert(.5) sepia(.6) brightness(.6)}100%{filter:none}}
+.print .lbl{position:absolute;left:16px;bottom:12px;right:16px;display:flex;justify-content:space-between;align-items:baseline;gap:10px;color:#1b1712}
+.print .lbl b{font:700 30px 'Caveat';color:var(--red)}
+.dinfo{width:min(860px,94vw);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:flex-start}
+.dinfo p{margin:0;max-width:520px;font-size:15px}
+.dark .btn{border-color:#ffb3a6;color:#ffb3a6}
+.dark .btn:hover{background:#ffb3a6;color:#1a0302}
+.dark .btn.r{background:#ff5a48;border-color:#ff5a48;color:#1a0302}
+.dark .x{position:absolute;top:12px;right:14px}
+.timer{font:500 13px 'IBM Plex Mono';letter-spacing:.1em}
+@media (max-width:860px){
+  .hd{flex-wrap:wrap}
+  .tapes{overflow:auto;flex-wrap:nowrap;width:100%}
+  .tapes a{flex:none}
+  .hero{grid-template-columns:1fr;min-height:auto}
+  .strips{height:420px}
+  .neg{width:150px}
+  .loupe{display:none}
+  .leaks{grid-template-columns:1fr 1fr}
+  .notes{grid-template-columns:1fr}
+  form.lab{grid-template-columns:1fr}
+  .tip{position:static;display:block;margin-top:10px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}[data-reveal]{opacity:1;transform:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body class="table">
+<header class="hd">
+  <a class="logo" href="#top">Кирилл · лайтбокс</a>
+  <nav class="tapes" aria-label="Разделы"><a href="#films">Плёнки</a><a href="#sheets">Листы</a><a href="#leak">Засветка</a><a href="#about">О режиссёре</a><a href="#order" class="order">Заказать проявку</a></nav>
+</header>
+<main>
+<section class="hero" id="top">
+  <div>
+    <h1>Лайтбокс<span class="hand">Кирилла — режиссёра</span></h1>
+    <p class="lead">Здесь лежат его плёнки: реклама, кино и эксперименты. Наведите лупу на негатив, нажмите на кадр — и мы его проявим.</p>
+    <div class="row" style="margin-top:22px"><a class="btn r" href="#films">Смотреть плёнки</a><a class="btn" href="#order">Заказать проявку</a></div>
+  </div>
+  <div class="strips" id="strips" aria-label="Негативы работ"></div>
+  <p class="tip hand">← лупа показывает позитив</p>
+</section>
+
+<section class="sec" id="films">
+  <div class="sh"><h2>Плёнки</h2><span class="hand">обведено — лучшее</span></div>
+  <div id="sheets-wrap"></div>
+</section>
+
+<section class="sec" id="sheets">
+  <div class="sh"><h2>Листы</h2><span class="hand">сценарии</span></div>
+  <div class="page" data-reveal>
+    <p>ЛИСТ 1</p><p>ИНТ. ЛАЙТБОКС — ДЕНЬ</p><p>На стекле лежат листы сценариев. Пока только этот.</p>
+    <span class="hand">Сюда лягут сценарии, синопсисы и концепции.</span>
+    <p class="note" style="font-family:'IBM Plex Sans Condensed'">Демо-ограничение: материалы для раздела ещё не получены.</p>
+  </div>
+</section>
+
+<section class="sec" id="leak">
+  <div class="sh"><h2>Засветка</h2><span class="hand">AI-работы</span></div>
+  <div class="leaks" data-reveal><button class="leak" type="button" aria-label="Слот для AI-работы 1"><span>Кадр 01 · ждём AI-работу</span></button><button class="leak" type="button" aria-label="Слот для AI-работы 2"><span>Кадр 02 · ждём AI-работу</span></button><button class="leak" type="button" aria-label="Слот для AI-работы 3"><span>Кадр 03 · ждём AI-работу</span></button></div>
+  <p class="note" style="margin-top:14px">Демо-ограничение: AI-материалы ещё не предоставлены. Наведите на кадр — свет сдвигается.</p>
+</section>
+
+<section class="sec" id="about">
+  <div class="sh"><h2>О режиссёре</h2></div>
+  <div class="notes">
+    <p class="big" data-reveal>Привет! Я Кирилл — режиссёр, сценарист и AI-креатор. Снимаю рекламу, пишу кино и иногда делаю странные вещи с нейросетями.</p>
+    <div class="sticky" data-reveal>Реклама: «Горная», AHMAD TEA, Twinby, AliExpress, Dodo GO, Bupas Gym.<br>Кино: «Петля», «История одной смерти».</div>
+  </div>
+</section>
+
+<section class="sec" id="order">
+  <div class="sh"><h2>Заказать проявку</h2><span class="hand">то есть — обсудить проект</span></div>
+  <form class="lab" data-kp-contact data-reveal>
+    <span class="stamp">Бланк №1</span>
+    <div class="ttl"><b>Бланк заказа</b><span class="mono">Лаборатория К.</span></div>
+    <label>Имя заказчика<input name="name"></label>
+    <label>Как связаться<input name="contact" placeholder="Telegram / телефон / почта"></label>
+    <fieldset class="chk"><legend>Что проявляем</legend>
+      <label><input type="radio" name="project" value="Реклама" checked> Реклама</label><label><input type="radio" name="project" value="Кино"> Кино</label><label><input type="radio" name="project" value="Клип"> Клип</label><label><input type="radio" name="project" value="AI-проект"> AI</label><label><input type="radio" name="project" value="Сценарий"> Сценарий</label></fieldset>
+    <label class="full">Особые пожелания<textarea name="message" rows="4"></textarea></label>
+    <div class="row full"><button class="btn r" data-act="tg" type="button">Отправить в Telegram</button><button class="btn" data-act="mail" type="button">Письмом</button><button class="btn" data-act="copy" type="button">Скопировать</button></div>
+    <p data-kp-status role="status" aria-live="polite" hidden></p>
+    <p class="note full">Контакты Кирилла добавим после согласования — пока Telegram откроет выбор чата.</p>
+  </form>
+</section>
+</main>
+<div class="loupe" id="loupe" aria-hidden="true"><span id="loupet"></span></div>
+
+<div class="dark" id="dark" role="dialog" aria-modal="true" aria-labelledby="dt" hidden>
+  <div class="line"></div>
+  <button class="btn x" type="button" data-close>Закрыть ×</button>
+  <div class="print"><div class="ph" id="dph"></div><div class="lbl"><b id="dt"></b><span class="mono" id="dk"></span></div></div>
+  <div class="dinfo"><div><p class="timer" id="timer">ПРОЯВКА 00:00</p><p id="df"></p><p id="dn" style="opacity:.8;margin-top:6px"></p></div>
+  <div class="row"><a class="btn r" id="ds" target="_blank" rel="noopener">Смотреть оригинал ↗</a><button class="btn" id="dnext" type="button">Следующий кадр →</button></div></div>
+</div>
+
+<script src="../../js/data.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/common.js"></script>
+<script src="../../js/present.js"></script>
+<script>
+(function(){
+  var $ = KP.qs, W = KP.works, n = 0;
+  /* негативы на столе */
+  var all = []; W.forEach(function(w){ w.posters.forEach(function(p,k){ all.push({w:w,p:k}); }); });
+  var rows = [all.slice(0,5), all.slice(5,10), all.slice(10)];
+  $('#strips').innerHTML = rows.map(function(r,ri){ return '<div class="strip s'+(ri+1)+'"><span class="code mono">KB 5219 ▸ '+(ri+1)+'A</span>'+r.map(function(f){ n++; return '<button class="neg" type="button" data-id="'+f.w.id+'" data-p="'+f.p+'" data-n="'+n+'A" aria-label="Проявить: '+KP.esc(f.w.title)+'"><img src="'+KP.poster(f.w.posters[f.p])+'" alt=""></button>'; }).join('')+'</div>'; }).join('');
+  requestAnimationFrame(function(){ KP.qsa('.strip').forEach(function(s){ s.classList.add('in'); }); });
+  /* лупа */
+  var lp = $('#loupe'), lt = $('#loupet'), Z = 2.2;
+  KP.qsa('.neg').forEach(function(b){
+    var w = KP.byId(b.dataset.id), src = KP.poster(w.posters[+b.dataset.p]);
+    b.addEventListener('mousemove', function(e){ var r = b.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+      lp.style.backgroundImage = 'url("'+src+'")'; lp.style.backgroundSize = (r.width*Z)+'px '+(r.height*Z)+'px';
+      lp.style.backgroundPosition = (110 - x*Z)+'px '+(110 - y*Z)+'px'; lp.style.left = e.clientX+'px'; lp.style.top = e.clientY+'px'; lt.textContent = w.title; lp.classList.add('on'); });
+    b.addEventListener('mouseleave', function(){ lp.classList.remove('on'); });
+    b.addEventListener('click', function(){ lp.classList.remove('on'); develop(w.id, +b.dataset.p); });
+  });
+  /* контактные листы */
+  var wax = '<svg class="wax" viewBox="0 0 100 70" preserveAspectRatio="none" aria-hidden="true"><path d="M8 38 C 6 10, 60 2, 90 14 C 104 22, 98 58, 60 64 C 30 68, 4 60, 10 30"/></svg>';
+  var groups = [['ads','Лист 1 · Реклама'],['film','Лист 2 · Кино'],['exp','Лист 3 · Эксперименты']], fn = 0;
+  $('#sheets-wrap').innerHTML = groups.map(function(g){ return '<div class="sheet" data-reveal><h3><span>'+g[1]+'</span><span>KB 5219</span></h3><div class="frames">'+W.filter(function(w){return w.cat===g[0];}).map(function(w){ fn++; return '<button class="fr" type="button" data-id="'+w.id+'"><span class="pic"><img src="'+KP.poster(w.posters[0])+'" alt="'+KP.esc(w.alt[0])+'" loading="lazy"></span>'+wax+'<span class="best">берём!</span><span class="cap"><span>'+KP.esc(w.title)+'</span><small>'+fn+'A · '+KP.esc(w.kind)+(w.dur?' · '+KP.esc(w.dur.split(' · ')[0]):'')+'</small></span></button>'; }).join('')+'</div></div>'; }).join('');
+  KP.qsa('.fr').forEach(function(b){ b.addEventListener('click', function(){ develop(b.dataset.id, 0); }); });
+  /* засветка следует за курсором */
+  KP.qsa('.leak').forEach(function(l){ l.addEventListener('mousemove', function(e){ var r = l.getBoundingClientRect(); l.style.setProperty('--x', ((e.clientX-r.left)/r.width*100)+'%'); l.style.setProperty('--y', ((e.clientY-r.top)/r.height*100)+'%'); }); });
+  /* проявка */
+  var dk = $('#dark'), M = KP.modal(dk), cur, tm;
+  function develop(id, p){ var w = KP.byId(id); cur = w;
+    $('#dph').innerHTML = KP.mediaHTML(w,{index:p||0}); var im = $('#dph img'); if (im && !KP.reduced) im.classList.add('dev');
+    $('#dt').textContent = w.title; $('#dk').textContent = w.kind + (w.dur ? ' · ' + w.dur : '');
+    $('#df').textContent = [w.client, 'кадр '+w.aspect, 'загружено '+w.upload, 'роль — уточняется'].join(' · ');
+    $('#dn').textContent = [w.note, KP.sourceNote(w)].filter(Boolean).join(' '); $('#ds').href = w.source;
+    var s = 0; clearInterval(tm); $('#timer').textContent = 'ПРОЯВКА 00:00'; tm = setInterval(function(){ s++; $('#timer').textContent = s < 3 ? 'ПРОЯВКА 00:0'+s : 'ГОТОВО · ОТПЕЧАТОК СУШИТСЯ'; if (s>=3) clearInterval(tm); }, 700);
+    var pr = $('.print'); pr.style.animation='none'; void pr.offsetWidth; pr.style.animation='';
+    if (dk.hidden) M.open(); }
+  $('#dnext').addEventListener('click', function(){ var k = W.indexOf(cur); develop(W[(k+1)%W.length].id, 0); });
+  /* активный ярлык */
+  var tapes = KP.qsa('.tapes a');
+  if ('IntersectionObserver' in window) { var so = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) tapes.forEach(function(a){ a.toggleAttribute('aria-current', a.getAttribute('href')==='#'+e.target.id); }); }); }, {rootMargin:'-45% 0px -50% 0px'}); KP.qsa('main section').forEach(function(s){ so.observe(s); }); }
+  KP.wireContact($('[data-kp-contact]'), 'Лайтбокс');
+  KP.reveal();
+})();
+</script>
+</body>
+</html>

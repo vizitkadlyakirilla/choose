@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Кирилл — выбираем стиль сайта</title>
+<meta name="description" content="Интерактивная презентация шести концепций сайта-портфолио Кирилла.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Onest:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/present.css">
+<link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+<header class="top">
+  <p class="eyebrow">Презентация концепций · сайт-портфолио</p>
+  <h1>Кирилл — выбираем <span>стиль сайта</span></h1>
+  <p class="lead">Подготовили несколько разных концепций твоего будущего сайта. Открой каждую, покликай, посмотри анимации и выбери, что больше нравится.</p>
+  <ol class="how">
+    <li><b>1</b>Открой вариант — это настоящий сайт, всё кликается.</li>
+    <li><b>2</b>Слева на каждом сайте есть панель: переключение вариантов, выбор и замечания.</li>
+    <li><b>3</b>Поставь оценки и отправь отзыв в Telegram одной кнопкой.</li>
+  </ol>
+</header>
+
+<nav class="switch" aria-label="Варианты" id="switch"></nav>
+
+<main class="gallery" id="gallery"></main>
+
+<section class="summary" id="summary" aria-labelledby="sumh">
+  <h2 id="sumh">Твои оценки и выбор</h2>
+  <p class="muted">Хранятся только в этом браузере, пока ты их не отправишь.</p>
+  <div class="tablewrap"><table id="sumt"><thead><tr><th>Вариант</th><th>Внешний вид</th><th>Удобство</th><th>Анимации</th><th>Подача портфолио</th><th>Общее</th><th>Отзыв</th></tr></thead><tbody></tbody></table></div>
+  <div class="actions"><button class="b main" type="button" id="sendAll">Отправить все отзывы в Telegram</button><button class="b" type="button" id="copyAll">Скопировать все отзывы</button><button class="b" type="button" id="mailAll">Письмом</button></div>
+  <p class="status" id="sumStatus" role="status" aria-live="polite" hidden></p>
+</section>
+
+<footer class="foot">
+  <p>Это прототипы для согласования стиля, а не финальный сайт. Кадры — из реальных работ Кирилла; видео пока открываются по ссылкам на оригиналы (Яндекс Диск), в финальной версии будут встроены.</p>
+</footer>
+
+<script src="assets/videos/manifest.js"></script>
+<script src="js/data.js"></script>
+<script src="js/config.js"></script>
+<script src="js/common.js"></script>
+<script src="js/present.js"></script>
+<script src="js/index.js"></script>
+</body>
+</html>

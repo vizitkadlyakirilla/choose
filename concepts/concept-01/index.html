@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="ru" data-concept="1" data-base="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Кирилл — режиссёр, сценарист, AI-креатор · Вариант 1</title>
+<meta name="description" content="Прототип 1: «Кирилл снимает…» — авторский минимализм.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500;1,600&family=Inter+Tight:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/present.css">
+<style>
+:root{--bg:#080807;--paper:#f2efe8;--mute:#b5b0a5;--acc:#ff5b2e;--line:rgba(242,239,232,.16);--pad:clamp(18px,3vw,48px)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--paper);font:16px/1.5 'Inter Tight',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+img{max-width:100%;display:block}
+:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+.mono{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.04em;text-transform:uppercase}
+.it{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;letter-spacing:-.01em}
+.skip{position:absolute;left:-999px}.skip:focus{left:12px;top:12px;z-index:99;background:var(--paper);color:var(--bg);padding:8px 12px}
+
+/* header */
+.hd{position:fixed;inset:0 0 auto 0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:18px var(--pad);transition:background .3s,backdrop-filter .3s}
+.hd.is-solid{background:rgba(8,8,7,.82);backdrop-filter:blur(8px)}
+.logo{font-weight:800;text-decoration:none;letter-spacing:-.01em}
+.nav{display:flex;gap:clamp(16px,2.4vw,34px);font-size:14px}
+.nav a{text-decoration:none;position:relative;padding:6px 0}
+.nav a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform .35s cubic-bezier(.2,.8,.1,1)}
+.nav a:hover::after,.nav a[aria-current]::after{transform:scaleX(1)}
+.nav a.cta{color:var(--acc)}
+.burger{display:none;min-height:44px;padding:0 14px;border:1px solid var(--line);background:transparent;color:var(--paper);font:600 13px 'Inter Tight';border-radius:999px;cursor:pointer}
+
+/* hero */
+.hero{position:relative;height:100vh;min-height:600px;overflow:hidden}
+.hero .shot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000;transition:opacity .35s}
+.hero .shot.fit{object-fit:contain}
+.hero .shot[hidden]{display:block;opacity:0;pointer-events:none}
+.hero img.shot.cut{animation:cut 2.8s linear both}
+.hero video.shot{cursor:pointer}
+@keyframes cut{from{transform:scale(1.07)}to{transform:scale(1)}}
+.scrim{position:absolute;inset:auto 0 0 0;height:60%;background:linear-gradient(0deg,rgba(8,8,7,.86),rgba(8,8,7,0));pointer-events:none}
+.sent{position:absolute;left:var(--pad);right:var(--pad);bottom:118px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px}
+.sent h1{margin:0;font-weight:800;font-size:clamp(42px,6.6vw,108px);line-height:.92;letter-spacing:-.045em}
+.sent h1 .l2{display:block;overflow:hidden;padding-bottom:.1em}
+.sent h1 .w{display:inline-block;color:var(--acc);font-size:1.3em}
+.sent h1 .w.up{animation:up .7s cubic-bezier(.2,.9,.1,1) both}
+@keyframes up{from{transform:translateY(105%)}to{transform:none}}
+.cap{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:6px;text-align:right;background:none;border:0;color:inherit;cursor:pointer;padding:0 0 14px}
+.cap b{font-size:20px;letter-spacing:-.01em;text-transform:none;font-family:'Inter Tight'}
+.cap .u{border-bottom:1px solid currentColor}
+.cap:hover .u{color:var(--acc)}
+.bar{position:absolute;left:var(--pad);right:var(--pad);bottom:36px;display:flex;align-items:center;gap:16px}
+.pp{flex:none;width:44px;height:44px;border-radius:50%;border:1px solid rgba(242,239,232,.6);background:transparent;color:var(--paper);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.pp:hover{border-color:var(--acc);color:var(--acc)}
+.segs{flex:1;list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(10,1fr);gap:6px}
+.segs button{display:block;width:100%;padding:14px 0;border:0;background:transparent;cursor:pointer}
+.segs i{display:block;position:relative;height:3px;background:rgba(242,239,232,.28);overflow:hidden}
+.segs i::after{content:"";position:absolute;inset:0;background:var(--paper);transform:scaleX(var(--p,0));transform-origin:left}
+.segs .on i::after{background:var(--acc)}
+.paused img.shot{animation-play-state:paused}
+.segs .vid i{background:rgba(242,239,232,.4)}
+.segs button:hover i{background:rgba(242,239,232,.6)}
+
+/* sections */
+section.s{padding:clamp(80px,12vw,160px) var(--pad)}
+.sh{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:clamp(28px,4vw,56px)}
+.sh h2{margin:0;font-weight:800;font-size:clamp(40px,7vw,120px);line-height:.9;letter-spacing:-.05em}
+.sh h2 .it{color:var(--acc);font-weight:500}
+[data-reveal]{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.2,.8,.1,1),transform .9s cubic-bezier(.2,.8,.1,1)}
+[data-reveal].is-in{opacity:1;transform:none}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{min-height:40px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--paper);font:500 14px 'Inter Tight';cursor:pointer}
+.chips button[aria-pressed="true"]{background:var(--paper);color:var(--bg)}
+.chips button:hover{border-color:var(--paper)}
+.rows{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.row{border-bottom:1px solid var(--line)}
+.row button{width:100%;display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:20px;align-items:baseline;padding:22px 0;border:0;background:transparent;color:inherit;text-align:left;cursor:pointer;font:inherit}
+.row .t{font-size:clamp(22px,3.2vw,48px);font-weight:700;letter-spacing:-.035em;line-height:1.05;transition:transform .5s cubic-bezier(.2,.8,.1,1),color .3s}
+.row .t .it{font-weight:600;color:var(--acc)}
+.row:hover .t{transform:translateX(18px)}
+.row .thumb{display:none}
+.row.hide{display:none}
+.float{position:fixed;left:0;top:0;width:min(380px,28vw);aspect-ratio:16/10;pointer-events:none;z-index:40;opacity:0;transform:translate(-50%,-50%) scale(.85);transition:opacity .25s,transform .35s cubic-bezier(.2,.8,.1,1);overflow:hidden}
+.float.on{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.float img{width:100%;height:100%;object-fit:cover}
+.paper{background:var(--paper);color:#1a1916;padding:clamp(28px,5vw,72px);max-width:860px;margin:0 auto;font-family:'JetBrains Mono',monospace;font-size:15px;line-height:1.7}
+.paper .c{text-align:center;text-transform:uppercase;margin:1.4em 0 0}
+.paper .d{max-width:420px;margin:0 auto}
+.paper .ph{margin-top:2em;padding:14px;border:1px dashed #8a857a;color:#57534b;font-size:13px}
+.ai{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.ai div{aspect-ratio:1;border:1px solid var(--line);display:flex;align-items:flex-end;padding:12px;color:var(--mute);background:repeating-linear-gradient(45deg,transparent 0 12px,rgba(242,239,232,.03) 12px 24px)}
+.about{display:grid;grid-template-columns:1.2fr 1fr;gap:clamp(24px,5vw,80px);align-items:start}
+.about p.big{margin:0;font-size:clamp(24px,3vw,40px);line-height:1.2;letter-spacing:-.02em}
+.facts{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.facts li{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
+.facts span:last-child{color:var(--mute);text-align:right}
+form.ct{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:980px}
+.ct label{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--mute)}
+.ct input,.ct select,.ct textarea{font:16px 'Inter Tight';color:var(--paper);background:transparent;border:0;border-bottom:1px solid var(--line);padding:10px 0;border-radius:0}
+.ct select option{color:#000}
+.ct .full{grid-column:1/-1}
+.ct input:focus,.ct textarea:focus,.ct select:focus{outline:0;border-color:var(--acc)}
+.btns{display:flex;flex-wrap:wrap;gap:10px;grid-column:1/-1}
+.btn{min-height:48px;padding:0 22px;border-radius:999px;border:1px solid var(--paper);background:transparent;color:var(--paper);font:600 14px 'Inter Tight';cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:background .2s,color .2s}
+.btn:hover{background:var(--paper);color:var(--bg)}
+.btn.main{background:var(--acc);border-color:var(--acc);color:#140804}
+.btn.main:hover{background:var(--paper);border-color:var(--paper)}
+.status{grid-column:1/-1;margin:0;color:var(--acc)}
+.ft{padding:28px var(--pad);display:flex;justify-content:space-between;gap:16px;color:var(--mute);border-top:1px solid var(--line)}
+
+/* project overlay */
+.ov{position:fixed;inset:0;z-index:80;background:#050504;display:grid;grid-template-columns:minmax(0,1.6fr) minmax(320px,1fr);opacity:0;visibility:hidden;transition:opacity .45s,visibility .45s}
+.ov.is-open{opacity:1;visibility:visible}
+.ov[hidden]{display:grid}
+.ov .media{position:relative;background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.ov .media img,.ov .media .kp-player{width:100%;height:100%;object-fit:contain;clip-path:inset(0 0 0 0);transition:clip-path .8s cubic-bezier(.7,0,.2,1)}
+.ov:not(.is-open) .media img{clip-path:inset(0 0 0 100%)}
+.ov .side{padding:clamp(24px,4vw,56px);overflow:auto;display:flex;flex-direction:column;gap:18px}
+.ov h3{margin:0;font-size:clamp(34px,4vw,64px);line-height:.95;letter-spacing:-.04em}
+.ov .x{position:absolute;top:16px;right:16px;z-index:2}
+.thumbs{display:flex;gap:8px}
+.thumbs button{width:84px;aspect-ratio:16/10;padding:0;border:1px solid var(--line);background:none;cursor:pointer;opacity:.6}
+.thumbs button[aria-pressed="true"]{opacity:1;border-color:var(--acc)}
+.thumbs img{width:100%;height:100%;object-fit:cover}
+.note{color:var(--mute);font-size:13px;margin:0}
+
+.menu{position:fixed;inset:0;z-index:60;background:var(--bg);display:flex;flex-direction:column;justify-content:center;gap:10px;padding:var(--pad);transform:translateY(-100%);transition:transform .5s cubic-bezier(.7,0,.2,1)}
+.menu.is-open{transform:none}
+.menu a{font-size:44px;font-weight:800;letter-spacing:-.04em;text-decoration:none}
+
+@media (max-width:860px){
+  .nav{display:none}.burger{display:block}
+  .cap{display:none}
+  .sent{bottom:96px}
+  .row button{grid-template-columns:96px minmax(0,1fr);gap:14px}
+  .row .num,.row .meta{display:none}
+  .row .thumb{display:block;width:96px;aspect-ratio:16/10;object-fit:cover}
+  .float{display:none}
+  .ai{grid-template-columns:repeat(2,1fr)}
+  .about{grid-template-columns:1fr}
+  form.ct{grid-template-columns:1fr}
+  .ov{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+  .ov .media{aspect-ratio:16/9}
+  .segs{gap:4px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}[data-reveal]{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#director">К работам</a>
+<header class="hd" id="hd">
+  <a class="logo" href="#top">Кирилл Буланов</a>
+  <nav class="nav" aria-label="Разделы">
+    <a href="#director">Режиссура</a><a href="#writer">Сценарии</a><a href="#ai">AI</a><a href="#about">Обо мне</a><a href="#contact" class="cta">Обсудить проект</a>
+  </nav>
+  <button class="burger" type="button" aria-expanded="false" aria-controls="menu">Меню</button>
+</header>
+<div class="menu" id="menu" aria-hidden="true">
+  <a href="#director">Режиссура</a><a href="#writer">Сценарии</a><a href="#ai">AI</a><a href="#about">Обо мне</a><a href="#contact" style="color:var(--acc)">Связаться</a>
+</div>
+
+<main>
+<section class="hero" id="top" aria-label="Шоурил">
+  <img class="shot" id="shot" src="../../assets/posters/gornaya_wrestle.jpg" alt="">
+  <video class="shot" id="vid" hidden aria-label="Фрагмент работы"></video>
+  <button class="kp-play" id="bigplay" type="button" hidden>▶ Запустить видео</button>
+  <div class="scrim"></div>
+  <div class="sent">
+    <h1><span>Кирилл снимает</span><span class="l2"><span class="w it" id="word">борьбу</span></span></h1>
+    <button class="cap mono" id="cap" type="button"><span id="capn">01 / 10 · реклама</span><b id="capt">«Горная»</b><span id="capm">4 ролика × 0:10</span><span class="u">Открыть проект →</span></button>
+  </div>
+  <div class="bar">
+    <button class="pp" id="pp" type="button" aria-label="Пауза"><svg width="12" height="14" viewBox="0 0 12 14" aria-hidden="true"><path id="ppi" d="M1 1h3.5v12H1zM7.5 1H11v12H7.5z" fill="currentColor"/></svg></button>
+    <ol class="segs" id="segs" aria-label="Работы в шоуриле"></ol>
+  </div>
+</section>
+
+<section class="s" id="director">
+  <div class="sh" data-reveal><h2>Кирилл <span class="it">снимает</span></h2>
+    <div class="chips" role="group" aria-label="Фильтр работ"><button type="button" data-f="all" aria-pressed="true">Все</button><button type="button" data-f="ads" aria-pressed="false">Реклама</button><button type="button" data-f="film" aria-pressed="false">Кино</button><button type="button" data-f="exp" aria-pressed="false">Эксперименты</button></div>
+  </div>
+  <ul class="rows" id="rows"></ul>
+</section>
+
+<section class="s" id="writer">
+  <div class="sh" data-reveal><h2>Кирилл <span class="it">пишет</span></h2><p class="mono" style="color:var(--mute);max-width:280px">Раздел сценариев</p></div>
+  <div class="paper" data-reveal>
+    <p>ИНТ. САЙТ КИРИЛЛА — ДЕНЬ</p>
+    <p>Посетитель листает страницу и доходит до раздела сценариев. Здесь пока тихо.</p>
+    <p class="c">КИРИЛЛ (З.К.)</p>
+    <p class="d">Скоро здесь будут мои сценарии, синопсисы и концепции.</p>
+    <p class="ph">Демо-ограничение: материалы для раздела «Сценарии» ещё не получены. Структура готова — синопсис, логлайн, страницы сценария, статус проекта.</p>
+  </div>
+</section>
+
+<section class="s" id="ai">
+  <div class="sh" data-reveal><h2>Кирилл <span class="it">генерирует</span></h2><p class="mono" style="color:var(--mute);max-width:280px">AI-работы</p></div>
+  <div class="ai" data-reveal><div class="mono">Слот 01 · ждём AI-работу</div><div class="mono">Слот 02 · ждём AI-работу</div><div class="mono">Слот 03 · ждём AI-работу</div><div class="mono">Слот 04 · ждём AI-работу</div></div>
+  <p class="note" style="margin-top:14px">Демо-ограничение: AI-материалы пока не предоставлены. Под каждой работой будет промпт и использованные инструменты.</p>
+</section>
+
+<section class="s" id="about">
+  <div class="sh" data-reveal><h2>Обо <span class="it">мне</span></h2></div>
+  <div class="about">
+    <p class="big" data-reveal>Привет! Я Кирилл — режиссёр, сценарист и AI-креатор. Снимаю рекламу, пишу кино и иногда делаю странные вещи с нейросетями.</p>
+    <ul class="facts" data-reveal>
+      <li><span>Реклама</span><span>«Горная», AHMAD TEA, Twinby, AliExpress, Dodo GO, Bupas Gym</span></li>
+      <li><span>Кино</span><span>«Петля» (диплом), «История одной смерти»</span></li>
+      <li><span>Эксперименты</span><span>Пародия на сериалы нулевых, «На всю жизнь»</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="s" id="contact">
+  <div class="sh" data-reveal><h2>Кирилл <span class="it">ждёт письма</span></h2></div>
+  <form class="ct" data-kp-contact data-reveal>
+    <label>Имя<input name="name" autocomplete="name"></label>
+    <label>Как связаться<input name="contact" placeholder="Telegram, телефон или почта"></label>
+    <label class="full">Что снимаем<select name="project"><option>Реклама</option><option>Короткий метр</option><option>Клип</option><option>AI-проект</option><option>Сценарий</option><option>Другое</option></select></label>
+    <label class="full">О проекте<textarea name="message" rows="4"></textarea></label>
+    <div class="btns"><button class="btn main" data-act="tg" type="button">Отправить в Telegram</button><button class="btn" data-act="mail" type="button">Письмом</button><button class="btn" data-act="copy" type="button">Скопировать</button></div>
+    <p class="status" data-kp-status role="status" aria-live="polite" hidden></p>
+    <p class="note full">Контакты Кирилла будут добавлены после согласования; пока Telegram откроет выбор чата, а письмо — почтовый клиент.</p>
+  </form>
+</section>
+</main>
+<footer class="ft mono"><span>© Кирилл Буланов</span><a href="#top">Наверх ↑</a></footer>
+
+<div class="float" id="float" aria-hidden="true"><img alt="" id="floatimg"></div>
+
+<div class="ov" id="ov" role="dialog" aria-modal="true" aria-labelledby="ovt" hidden>
+  <div class="media" id="ovm"></div>
+  <div class="side">
+    <button class="btn x" type="button" data-close>Закрыть ×</button>
+    <p class="mono" id="ovk" style="color:var(--acc);margin:0"></p>
+    <h3 id="ovt"></h3>
+    <div class="thumbs" id="ovth"></div>
+    <ul class="facts" id="ovf"></ul>
+    <p class="note" id="ovn"></p>
+    <div style="display:flex;flex-wrap:wrap;gap:10px"><a class="btn main" id="ovs" target="_blank" rel="noopener">Смотреть оригинал ↗</a><button class="btn" type="button" id="ovnext">Следующая работа →</button></div>
+  </div>
+</div>
+
+<script src="../../assets/videos/manifest.js"></script>
+<script src="../../js/data.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/common.js"></script>
+<script src="../../js/present.js"></script>
+<script>
+(function(){
+  var W = KP.works, $ = KP.qs;
+  /* шоурил: 10 склеек, слово меняется вместе с кадром */
+  var reel = [];
+  W.forEach(function(w){ reel.push({w:w,p:0,word:w.word}); });
+  reel.splice(5,0,{w:KP.byId('gornaya'),p:1,word:'гимнастику'}); reel.length = 10;
+  var i = 0, paused = KP.reduced, hero = $('#top'), img = $('#shot'), vid = KP.registerBg($('#vid')), isVid = false, t0 = 0, el = 0, DUR = 2.8;
+  vid._kpReel = true;
+  var segs = $('#segs');
+  segs.innerHTML = reel.map(function(r,k){ return '<li class="'+(r.p===0 && KP.previewSrc(r.w)?'vid':'')+'"><button type="button" aria-label="'+KP.esc(r.w.title+' — '+r.word)+'"><i></i></button></li>'; }).join('');
+  var sb = KP.qsa('button', segs);
+  function info(r){ var w=r.w, wd = $('#word'); wd.textContent = r.word; wd.classList.remove('up'); void wd.offsetWidth; if (!KP.reduced) wd.classList.add('up');
+    $('#capn').textContent = (i<9?'0':'')+(i+1)+' / 10 · '+w.kind.toLowerCase(); $('#capt').textContent = w.title; $('#capm').textContent = w.dur || w.client; }
+  function show(k){
+    i = (k + reel.length) % reel.length; var r = reel[i], w = r.w, src = r.p===0 ? KP.previewSrc(w) : null;
+    el = 0; $('#bigplay').hidden = true;
+    sb.forEach(function(b,n){ var li=b.parentNode; li.classList.toggle('on', n===i); b.querySelector('i').style.setProperty('--p', n<i?1:0); });
+    info(r);
+    if (src) {
+      isVid = true; vid.poster = KP.posterOf(w,0); vid.src = src; vid.loop = false; vid.classList.toggle('fit', w.aspect.indexOf('16:9')<0);
+      vid.hidden = false; img.hidden = true;
+      if (!paused) KP.tryPlay(vid).then(function(ok){ if(!ok && reel[i]===r){ $('#bigplay').hidden = false; setPause(true); } });
+    } else {
+      isVid = false; vid.pause(); vid.removeAttribute('src'); vid.load(); vid.hidden = true; img.hidden = false;
+      img.src = KP.poster(w.posters[r.p]); img.alt = w.alt[r.p] || w.title; img.classList.toggle('fit', w.aspect.indexOf('16:9')<0);
+      img.classList.remove('cut'); void img.offsetWidth; if (!KP.reduced) img.classList.add('cut');
+    }
+  }
+  vid.addEventListener('ended', function(){ if (!paused) show(i+1); });
+  /* единые часы таймлайна: для видео — реальное время ролика, для кадров — 2,8 с */
+  var last = performance.now();
+  function tick(now){
+    var dt = (now - last)/1000; last = now;
+    var ovOpen = $('#ov').classList.contains('is-open');
+    var p;
+    if (isVid) p = vid.duration ? vid.currentTime / vid.duration : 0;
+    else { if (!paused && !ovOpen) el += dt; p = el / DUR; if (p >= 1) { show(i+1); p = 0; } }
+    var on = sb[i] && sb[i].querySelector('i'); if (on) on.style.setProperty('--p', Math.min(1,p).toFixed(4));
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+  sb.forEach(function(b,n){ b.addEventListener('click', function(){ show(n); }); });
+  function setPause(p){ paused=p; vid._kpUserPaused = p; hero.classList.toggle('paused',p); $('#pp').setAttribute('aria-label',p?'Продолжить':'Пауза'); $('#ppi').setAttribute('d', p?'M1 1l10 6-10 6z':'M1 1h3.5v12H1zM7.5 1H11v12H7.5z');
+    if (isVid) { if (p) vid.pause(); else { $('#bigplay').hidden = true; KP.tryPlay(vid); } } }
+  $('#pp').addEventListener('click', function(){ setPause(!paused); });
+  $('#bigplay').addEventListener('click', function(){ setPause(false); });
+  $('#cap').addEventListener('click', function(){ openP(reel[i].w.id, reel[i].p); });
+  img.addEventListener('click', function(){ openP(reel[i].w.id, reel[i].p); });
+  vid.addEventListener('click', function(){ openP(reel[i].w.id, reel[i].p); });
+  setPause(paused); show(0);
+
+  /* шапка */
+  var hd = $('#hd');
+  addEventListener('scroll', function(){ hd.classList.toggle('is-solid', scrollY > innerHeight*.6); }, {passive:true});
+  var menu = $('#menu'), bg = $('.burger');
+  bg.addEventListener('click', function(){ var o = !menu.classList.contains('is-open'); menu.classList.toggle('is-open',o); bg.setAttribute('aria-expanded',o); menu.setAttribute('aria-hidden',!o); bg.textContent=o?'Закрыть':'Меню'; });
+  KP.qsa('a', menu).forEach(function(a){ a.addEventListener('click', function(){ menu.classList.remove('is-open'); bg.setAttribute('aria-expanded',false); bg.textContent='Меню'; }); });
+  var links = KP.qsa('.nav a');
+  if ('IntersectionObserver' in window) {
+    var so = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ links.forEach(function(a){ a.toggleAttribute('aria-current', a.getAttribute('href')==='#'+e.target.id); }); } }); }, {rootMargin:'-45% 0px -50% 0px'});
+    KP.qsa('main section').forEach(function(s){ so.observe(s); });
+  }
+
+  /* список работ */
+  var rows = $('#rows');
+  rows.innerHTML = W.map(function(w,k){ return '<li class="row" data-cat="'+w.cat+'" data-reveal><button type="button" data-id="'+w.id+'">'+
+    '<span class="num mono">'+(k<9?'0':'')+(k+1)+'</span><img class="thumb" src="'+KP.poster(w.posters[0])+'" alt="" loading="lazy">'+
+    '<span class="t">…'+KP.esc(w.word)+' <span style="color:var(--mute);font-weight:500">для</span> <span class="it">'+KP.esc(w.title)+'</span></span>'+
+    '<span class="meta mono" style="color:var(--mute)">'+KP.esc(w.kind)+(w.dur?' · '+KP.esc(w.dur):'')+'</span></button></li>'; }).join('');
+  var fl = $('#float'), fi = $('#floatimg');
+  KP.qsa('.row button', rows).forEach(function(b){
+    var w = KP.byId(b.dataset.id);
+    b.addEventListener('mouseenter', function(){ fi.src = KP.poster(w.posters[0]); fl.classList.add('on'); });
+    b.addEventListener('mouseleave', function(){ fl.classList.remove('on'); });
+    b.addEventListener('click', function(){ fl.classList.remove('on'); openP(w.id,0); });
+  });
+  addEventListener('mousemove', function(e){ fl.style.left = e.clientX+'px'; fl.style.top = e.clientY+'px'; }, {passive:true});
+  KP.qsa('.chips button').forEach(function(c){ c.addEventListener('click', function(){
+    KP.qsa('.chips button').forEach(function(x){ x.setAttribute('aria-pressed', x===c); });
+    KP.qsa('.row', rows).forEach(function(r){ r.classList.toggle('hide', c.dataset.f!=='all' && r.dataset.cat!==c.dataset.f); });
+  }); });
+
+  /* карточка проекта */
+  var ov = $('#ov'), M = KP.modal(ov), cur = null;
+  function openP(id, p){
+    var w = KP.byId(id); cur = w; p = p || 0;
+    $('#ovk').textContent = w.kind + (w.dur ? ' · ' + w.dur : '');
+    $('#ovt').textContent = w.title;
+    $('#ovm').innerHTML = KP.mediaHTML(w,{index:p});
+    $('#ovth').innerHTML = w.posters.length>1 ? w.posters.map(function(f,n){ return '<button type="button" aria-pressed="'+(n===p)+'" aria-label="Кадр '+(n+1)+'"><img src="'+KP.poster(f)+'" alt=""></button>'; }).join('') : '';
+    KP.qsa('#ovth button').forEach(function(b,n){ b.addEventListener('click', function(){ openP(id,n); }); });
+    $('#ovf').innerHTML = [['Заказчик / формат',w.client],['Категория',w.kind],['Длительность',w.dur||'уточняется'],['Кадр',w.aspect],['Загружено на Диск',w.upload],['Роль Кирилла','уточняется']].map(function(r){ return '<li><span>'+r[0]+'</span><span>'+KP.esc(r[1])+'</span></li>'; }).join('');
+    $('#ovn').textContent = [w.note, KP.sourceNote(w)].filter(Boolean).join(' ');
+    $('#ovs').href = w.source;
+    if (ov.hidden) M.open(); else KP.startPlayer(ov);
+  }
+  $('#ovnext').addEventListener('click', function(){ var k = W.indexOf(cur); openP(W[(k+1)%W.length].id,0); });
+
+  KP.wireContact($('[data-kp-contact]'), 'Кирилл снимает…');
+  KP.reveal();
+})();
+</script>
+</body>
+</html>
