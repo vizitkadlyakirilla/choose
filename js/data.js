@@ -1,9 +1,15 @@
-/* Каталог работ Кирилла. Источник — публичные ссылки Яндекс Диска из ТЗ.
-   Длительности и имена файлов взяты со страниц Диска; год = дата загрузки на Диск (не год производства).
-   Роль Кирилла, описания и годы производства — ЖДЁМ ОТ ЗАКАЗЧИКА (поля пустые).
-   video: путь к файлу в assets/videos/ (например 'assets/videos/ahmad.mp4') — пока null:
-   Яндекс Диск не позволяет встраивать видео, поэтому в прототипах показываются кадр и ссылка на оригинал. */
-window.KP_WORKS = [
+/* Данные сайта Кирилла Буланова. Работы — из публичных ссылок Яндекс Диска (ТЗ).
+   Год = дата загрузки на Диск. Роль в каждой работе — уточняется у автора. */
+window.BOS_AUTHOR = {
+  name: 'Кирилл Буланов',
+  roles: ['Режиссёр', 'Сценарист', 'AI-креатор'],
+  email: 'bulanozavr@mail.ru',
+  telegram: 'bulanozavr',
+  phone: '+7 (915) 018-31-76',
+  phoneHref: '+79150183176',
+  instagram: 'bulanozavr_'
+};
+window.BOS_WORKS = [
   { id: 'gornaya', title: '«Горная»', client: 'Питьевая вода «Горная»', cat: 'ads', kind: 'Реклама', dur: '4 ролика × 0:10', upload: '2023',
     posters: ['gornaya_wrestle.jpg', 'gornaya_gym.jpg'], alt: ['Борцы на ковре', 'Гимнаст на брусьях'], aspect: '16:9',
     word: 'борьбу', word2: 'гимнастику', source: 'https://disk.yandex.ru/d/nJUajrrQL6Xf-w', video: null,
@@ -43,13 +49,4 @@ window.KP_WORKS = [
     word: 'нулевые', source: 'https://disk.yandex.ru/i/77VCz8nTxySq-A', video: null, note: '' }
 ];
 
-window.KP_CATS = { ads: 'Реклама', film: 'Кино', exp: 'Эксперименты' };
-
-window.KP_CONCEPTS = [
-  { n: 1, slug: 'concept-01', name: 'Кирилл снимает…', tag: 'Авторский минимализм' },
-  { n: 2, slug: 'concept-02', name: 'Кирилл.narod', tag: 'Experimental Web 2000' },
-  { n: 3, slug: 'concept-03', name: 'КИРИЛЛ ТВ', tag: 'Сайт-телеканал' },
-  { n: 4, slug: 'concept-04', name: 'Кино по скроллу', tag: 'Experimental Cinema' },
-  { n: 5, slug: 'concept-05', name: 'Плакат', tag: 'Digital Art Direction' },
-  { n: 6, slug: 'concept-06', name: 'Лайтбокс', tag: 'Creative Wildcard' }
-];
+window.BOS_CATS = { ads: 'Реклама', film: 'Кино', exp: 'Эксперименты' };

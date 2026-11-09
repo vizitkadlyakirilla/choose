@@ -2,49 +2,69 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Кирилл — выбираем стиль сайта</title>
-<meta name="description" content="Интерактивная презентация шести концепций сайта-портфолио Кирилла.">
-<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Кирилл Буланов — режиссёр, сценарист, AI-креатор</title>
+<meta name="description" content="Кирилл Буланов — режиссёр, сценарист и AI-креатор. Реклама, кино, эксперименты. Интерактивный сайт-компьютер BulanOS.">
+<meta name="author" content="Кирилл Буланов">
+<meta property="og:title" content="Кирилл Буланов — режиссёр, сценарист, AI-креатор">
+<meta property="og:description" content="Компьютер Кирилла Буланова: работы, контакты и мини-игры.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/photos/kirill-portrait.jpg">
+<meta name="theme-color" content="#06063a">
+<link rel="icon" href="assets/photos/kirill-avatar.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Onest:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/present.css">
-<link rel="stylesheet" href="css/index.css">
+<link href="https://fonts.googleapis.com/css2?family=Lobster&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/os.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Кирилл Буланов","jobTitle":["Режиссёр","Сценарист","AI-креатор"],"email":"mailto:bulanozavr@mail.ru","telephone":"+79150183176","sameAs":["https://t.me/bulanozavr","https://instagram.com/bulanozavr_"]}</script>
 </head>
 <body>
-<header class="top">
-  <p class="eyebrow">Презентация концепций · сайт-портфолио</p>
-  <h1>Кирилл — выбираем <span>стиль сайта</span></h1>
-  <p class="lead">Подготовили несколько разных концепций твоего будущего сайта. Открой каждую, покликай, посмотри анимации и выбери, что больше нравится.</p>
-  <ol class="how">
-    <li><b>1</b>Открой вариант — это настоящий сайт, всё кликается.</li>
-    <li><b>2</b>Слева на каждом сайте есть панель: переключение вариантов, выбор и замечания.</li>
-    <li><b>3</b>Поставь оценки и отправь отзыв в Telegram одной кнопкой.</li>
-  </ol>
-</header>
+<div class="screen" id="screen">
+  <div class="mq" aria-label="Добро пожаловать на компьютер Кирилла Буланова"><span aria-hidden="true">★ ДОБРО ПОЖАЛОВАТЬ НА КОМПЬЮТЕР КИРИЛЛА БУЛАНОВА ★ РЕЖИССЁР ★ СЦЕНАРИСТ ★ AI-КРЕАТОР ★ ОТКРЫВАЙ ИКОНКИ ★ В БРАУЗЕРЕ — ИГРЫ БУЛАНОЗАВРА ★ ПИШИ: BULANOZAVR@MAIL.RU ★&nbsp;&nbsp;★ ДОБРО ПОЖАЛОВАТЬ НА КОМПЬЮТЕР КИРИЛЛА БУЛАНОВА ★ РЕЖИССЁР ★ СЦЕНАРИСТ ★ AI-КРЕАТОР ★ ОТКРЫВАЙ ИКОНКИ ★ В БРАУЗЕРЕ — ИГРЫ БУЛАНОЗАВРА ★ ПИШИ: BULANOZAVR@MAIL.RU ★&nbsp;&nbsp;</span></div>
+  <main class="desktop" id="desktop">
+    <div class="desk-bg" aria-hidden="true"></div>
+    <div class="wordmark" aria-hidden="true"><b>Кирилл Буланов</b><span>РЕЖИССЁР · СЦЕНАРИСТ · AI-КРЕАТОР</span></div>
+    <nav class="icons" id="icons" aria-label="Рабочий стол"></nav>
+    <div class="wins" id="wins"></div>
+    <div class="toasts" id="toasts" aria-live="polite"></div>
+  </main>
+  <div class="smenu" id="smenu" hidden></div>
+  <footer class="taskbar">
+    <button type="button" class="b3 start" id="start" aria-haspopup="menu" aria-expanded="false" aria-controls="smenu"><img id="startlogo" alt="" width="22" height="22">Пуск</button>
+    <div class="tasks" id="tasks" aria-label="Открытые окна"></div>
+    <div class="tray"><button type="button" id="sndbtn"></button><span class="clock" id="clock">00:00</span></div>
+  </footer>
+</div>
 
-<nav class="switch" aria-label="Варианты" id="switch"></nav>
-
-<main class="gallery" id="gallery"></main>
-
-<section class="summary" id="summary" aria-labelledby="sumh">
-  <h2 id="sumh">Твои оценки и выбор</h2>
-  <p class="muted">Хранятся только в этом браузере, пока ты их не отправишь.</p>
-  <div class="tablewrap"><table id="sumt"><thead><tr><th>Вариант</th><th>Внешний вид</th><th>Удобство</th><th>Анимации</th><th>Подача портфолио</th><th>Общее</th><th>Отзыв</th></tr></thead><tbody></tbody></table></div>
-  <div class="actions"><button class="b main" type="button" id="sendAll">Отправить все отзывы в Telegram</button><button class="b" type="button" id="copyAll">Скопировать все отзывы</button><button class="b" type="button" id="mailAll">Письмом</button></div>
-  <p class="status" id="sumStatus" role="status" aria-live="polite" hidden></p>
+<section class="sys" id="boot" aria-label="Загрузка BulanOS">
+  <pre class="bios" id="bios" aria-live="polite"></pre>
+  <div class="bootlogo" id="bootlogo"><canvas id="bootlogocanvas" width="96" height="96"></canvas><h2>Bulan<i>OS</i></h2><small>ЗАГРУЗКА КОМПЬЮТЕРА КИРИЛЛА БУЛАНОВА</small><div class="pbar" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <button type="button" class="skip" id="bootskip">Пропустить загрузку ▶</button>
+</section>
+<section class="sys" id="sdscreen" hidden><p class="sdmsg" id="sdtext"></p></section>
+<section class="sys off" id="off" hidden aria-label="Компьютер выключен">
+  <button type="button" class="power" id="powerbtn" aria-label="Включить компьютер"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 3v9"/><path d="M6.3 6.8a8 8 0 1 0 11.4 0"/></svg></button>
+  <p class="offnote">Компьютер Кирилла Буланова выключен.<br>Нажмите кнопку, чтобы включить.</p>
+  <span class="led" aria-hidden="true"></span>
 </section>
 
-<footer class="foot">
-  <p>Это прототипы для согласования стиля, а не финальный сайт. Кадры — из реальных работ Кирилла; видео пока открываются по ссылкам на оригиналы (Яндекс Диск), в финальной версии будут встроены.</p>
-</footer>
+<noscript><div style="position:fixed;inset:0;z-index:99;background:#fff;padding:20px;font:16px sans-serif">Кирилл Буланов — режиссёр, сценарист, AI-креатор.<br>Email: <a href="mailto:bulanozavr@mail.ru">bulanozavr@mail.ru</a> · Telegram: <a href="https://t.me/bulanozavr">@bulanozavr</a> · Телефон: <a href="tel:+79150183176">+7 (915) 018-31-76</a> · Instagram: <a href="https://instagram.com/bulanozavr_">@bulanozavr_</a><br>Для интерактивного сайта включите JavaScript.</div></noscript>
 
 <script src="assets/videos/manifest.js"></script>
 <script src="js/data.js"></script>
-<script src="js/config.js"></script>
-<script src="js/common.js"></script>
-<script src="js/present.js"></script>
-<script src="js/index.js"></script>
+<script src="js/core.js"></script>
+<script src="js/games/engine.js"></script>
+<script src="js/games/bulanozavr.js"></script>
+<script src="js/games/turnik.js"></script>
+<script src="js/apps.js"></script>
+<script src="js/browser.js"></script>
+<script src="js/os.js"></script>
+<script>
+/* иконки рабочего стола */
+(function () {
+  var I = [['about', 'Обо_мне.exe'], ['director', 'Режиссура'], ['scripts', 'Сценарии.txt'], ['ai', 'AI-проекты'], ['photos', 'Фотографии'], ['contacts', 'Контакты'], ['browser', 'BulanNet Explorer'], ['games', 'Игры'], ['settings', 'Настройки']];
+  document.getElementById('icons').innerHTML = I.map(function (x) { return '<button type="button" class="ic" data-app="' + x[0] + '">' + BOS.icon(x[0]) + '<span class="lab">' + x[1] + '</span></button>'; }).join('');
+})();
+</script>
 </body>
 </html>
