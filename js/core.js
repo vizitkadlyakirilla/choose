@@ -53,7 +53,9 @@
     swing: [{ f: 200, to: 320, d: 0.08, type: 'triangle', vol: 0.08 }],
     whoosh: [{ f: 300, to: 1200, d: 0.25, type: 'triangle', vol: 0.15 }],
     catch: [{ f: 660, d: 0.06, vol: 0.2 }, { f: 990, d: 0.1, delay: 0.06, vol: 0.2 }],
-    fall: [{ f: 600, to: 90, d: 0.7, type: 'triangle', vol: 0.22 }]
+    fall: [{ f: 600, to: 90, d: 0.7, type: 'triangle', vol: 0.22 }],
+    warn: [{ f: 523, d: 0.12, type: 'triangle', vol: 0.18 }, { f: 392, d: 0.2, delay: 0.11, type: 'triangle', vol: 0.18 }],
+    trash: [{ f: 140, to: 70, d: 0.08, type: 'sawtooth', vol: 0.12 }, { f: 220, to: 90, d: 0.08, delay: 0.09, type: 'sawtooth', vol: 0.12 }, { f: 180, to: 60, d: 0.12, delay: 0.18, type: 'sawtooth', vol: 0.12 }, { f: 300, to: 900, d: 0.25, delay: 0.42, type: 'triangle', vol: 0.12 }]
   };
   /* gameMuted: отдельный выключатель звука для игр */
   BOS.sfx = function (name, force) {

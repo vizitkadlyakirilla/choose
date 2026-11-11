@@ -58,12 +58,18 @@
 <script src="js/games/turnik.js"></script>
 <script src="js/apps.js"></script>
 <script src="js/browser.js"></script>
+<script src="js/trash-doc.js"></script>
+<script src="js/trash.js"></script>
 <script src="js/os.js"></script>
 <script>
 /* иконки рабочего стола */
 (function () {
   var I = [['about', 'Обо_мне.exe'], ['director', 'Режиссура'], ['scripts', 'Сценарии.txt'], ['ai', 'AI-проекты'], ['photos', 'Фотографии'], ['contacts', 'Контакты'], ['browser', 'BulanNet Explorer'], ['games', 'Игры'], ['settings', 'Настройки']];
   document.getElementById('icons').innerHTML = I.map(function (x) { return '<button type="button" class="ic" data-app="' + x[0] + '">' + BOS.icon(x[0]) + '<span class="lab">' + x[1] + '</span></button>'; }).join('');
+  /* Корзина — отдельно, в правом нижнем углу стола: её находят случайно */
+  var t = document.createElement('button'); t.type = 'button'; t.className = 'ic ic-trash'; t.dataset.app = 'trash';
+  t.innerHTML = BOS.icon('trash') + '<span class="lab">Корзина</span>'; t.title = 'Корзина (2 объекта)';
+  document.getElementById('desktop').appendChild(t);
 })();
 </script>
 </body>

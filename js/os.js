@@ -23,6 +23,11 @@
     settings: px(['.....kkkk.....', '..kk.kddk.kk..', '.kddkkddkkddk.', '.kddddddddddk.', '..kddkkkkddk..', 'kkkdkk..kkdkkk', 'kddddk..kddddk', 'kddddk..kddddk', 'kkkdkk..kkdkkk', '..kddkkkkddk..', '.kddddddddddk.', '.kddkkddkkddk.', '..kk.kddk.kk..', '.....kkkk.....'], P),
     reboot: px(['..............', '.....kkkk.....', '...kkllllkk.k.', '..kll....llkk.', '.kl.......kk..', '.kl....kkkkk..', '.kl...........', '.kl.......lk..', '.kl.......lk..', '..kll....llk..', '...kkllllkk...', '.....kkkk.....', '..............', '..............'], P),
     power: px(['..............', '......kk......', '..kk..kl..kk..', '.krk..kl..krk.', 'krk...kl...krk', 'kr....kl....rk', 'kr....kk....rk', 'kr..........rk', 'kr..........rk', '.krk......krk.', '..krrkkkkrrk..', '....krrrrk....', '..............', '..............'], P),
+    trash: px(['....kkkkk.....', '..kkdddddkk...', '.kgggggggggk..', '..kwwkwwkwk...', '..kwgkwgkwk...', '..kwgkwgkwk...', '..kwgkwgkwk...', '..kwgkwgkwk...', '..kwgkwgkwk...', '..kwgkwgkwk...', '..kwgkwgkwk...', '...kkkkkkk....', '..............', '..............'], P),
+    doc: px(['.kkkkkkkkk....', '.kwwwwwwwwk...', '.kwbbbbbwwwk..', '.kwwwwwwwwwwk.', '.kwnnnnnnnnwk.', '.kwwwwwwwwwwk.', '.kwnnnnnnnnwk.', '.kwwwwwwwwwwk.', '.kwnnnnnnwwwk.', '.kbbbbbbbbbbk.', '.kbwbwbwbbbbk.', '.kbbwbwbbbbbk.', '.kbbbbbbbbbbk.', '.kkkkkkkkkkkk.'], P),
+    jpg: px(['.kkkkkkkkk....', '.kwwwwwwwwk...', '.kwccccccwwk..', '.kwccyyccccwk.', '.kwccyycccccwk'.slice(0, 14), '.kwcccccclcwk.', '.kwccccclllwk.', '.kwlcccllllwk.', '.kwllllllllwk.', '.kwwwwwwwwwwk.', '.kwrrwrrrwwwk.', '.kwwwwwwwwwwk.', '.kkkkkkkkkkkk.', '..............'], P),
+    warn: px(['......kk......', '.....kyyk.....', '.....kyyk.....', '....kyyyyk....', '....kykkyk....', '...kyykkyyk...', '...kyykkyyk...', '..kyyykkyyyk..', '..kyyykkyyyk..', '.kyyyyyyyyyyk.', '.kyyyykkyyyyk.', 'kyyyyykkyyyyyk', 'kkkkkkkkkkkkkk', '..............'], P),
+    question: px(['....kkkkkk....', '..kkbbbbbbkk..', '.kbbbwwwwbbbk.', '.kbbwwbbwwbbk.', 'kbbbbbbbwwbbbk', 'kbbbbbbwwbbbbk', 'kbbbbbwwbbbbbk', 'kbbbbbwwbbbbbk', 'kbbbbbbbbbbbbk', '.kbbbbwwbbbbk.', '.kbbbbwwbbbbk.', '..kkbbbbbbkk..', '....kkkkkk....', '..............'], P),
     sound: px(['......k...', '.....kk...', 'kkkkkwk.k.', 'kwwwkwk..k', 'kwwwkwk.k.', 'kkkkkwk...', '.....kk...', '......k...'], P),
     mute: px(['......k...', '.....kk...', 'kkkkkwkr.r', 'kwwwkwk.r.', 'kwwwkwkr.r', 'kkkkkwk...', '.....kk...', '......k...'], P)
   };
@@ -202,7 +207,8 @@
 
   function startSession() {
     var m = BOS.mobile();
-    BOS.open('about', m ? {} : { x: 104, y: 16 });
+    var ir = $('#icons').getBoundingClientRect();
+    BOS.open('about', m ? {} : { x: Math.round(ir.right + 12), y: 16 });
     if (!m) setTimeout(function () { BOS.open('director'); var a = wins.about; if (a) focus(a); }, 120);
     setTimeout(function () { BOS.notify('Добро пожаловать в BulanOS', 'Это компьютер Кирилла Буланова. Открывайте иконки, меню «Пуск» — внизу слева.'); }, 600);
     setTimeout(function () { if (!$('#off').hidden || !$('#boot').hidden) return; BOS.notify('Буланозавр скучает', 'В браузере есть две мини-игры.', { action: { label: 'Сыграть', fn: function () { BOS.open('browser', { url: 'bulanos://games' }); } }, timeout: 9000 }); }, 9000);

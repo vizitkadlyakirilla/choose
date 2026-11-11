@@ -50,3 +50,7 @@ window.BOS_WORKS = [
 ];
 
 window.BOS_CATS = { ads: 'Реклама', film: 'Кино', exp: 'Эксперименты' };
+
+/* Фото для корзины (IMG_2013_НЕ_ПОКАЗЫВАТЬ.jpg). Когда заказчик пришлёт файл:
+   положить его в assets/photos/img-2013-ne-pokazyvat.jpg и указать путь здесь. */
+window.BOS_TRASH_PHOTO = 'assets/photos/img-2013-ne-pokazyvat.jpg';
