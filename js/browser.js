@@ -2,7 +2,7 @@
 (function () {
   var BOS = window.BOS, $ = BOS.$, $$ = BOS.$$, A = window.BOS_AUTHOR, W = window.BOS_WORKS;
   var HOME = 'bulanos://home';
-  var ALIAS = { home: HOME, games: 'bulanos://games', bulanozavr: 'bulanos://bulanozavr', turnik: 'bulanos://turnik', works: 'bulanos://works', contacts: 'bulanos://contacts', about: 'bulanos://about' };
+  var ALIAS = { home: HOME, games: 'bulanos://games', bulanozavr: 'bulanos://bulanozavr', turnik: 'bulanos://turnik', escape: 'bulanos://escape', pobeg: 'bulanos://escape', operator: 'bulanos://escape', works: 'bulanos://works', contacts: 'bulanos://contacts', about: 'bulanos://about' };
   BOS.gameSound = function () { var v = BOS.store('gamesound'); return v === null ? true : v; };
 
   function norm(u) {
@@ -17,7 +17,8 @@
   function gamesHTML() {
     return '<h2>МИНИ-ИГРЫ БУЛАНОЗАВРА</h2><div class="gcards">' +
       '<button type="button" class="gcard" data-nav="bulanos://bulanozavr"><canvas width="320" height="180" data-preview="dino"></canvas><div><b>БУЛАНОЗАВР</b><small>Беги, прыгай через штативы и софиты. Пробел / ↑ / касание.</small></div></button>' +
-      '<button type="button" class="gcard" data-nav="bulanos://turnik"><canvas width="320" height="180" data-preview="turnik"></canvas><div><b>КИРИЛЛ НА ТУРНИКЕ</b><small>Держи — раскачивайся, отпусти — лети к следующей перекладине.</small></div></button></div>';
+      '<button type="button" class="gcard" data-nav="bulanos://turnik"><canvas width="320" height="180" data-preview="turnik"></canvas><div><b>КИРИЛЛ НА ТУРНИКЕ</b><small>Держи — раскачивайся, отпусти — лети к следующей перекладине.</small></div></button>' +
+      '<button type="button" class="gcard" data-nav="bulanos://escape"><canvas width="320" height="180" data-preview="escape"></canvas><div><b>ПОБЕГ ОТ ОПЕРАТОРА</b><small>Три дорожки. Лови зелёные ускорения, иначе оператор догонит. Стрелки / свайпы.</small></div></button></div>';
   }
   var PAGES = {
     'bulanos://home': { title: 'Домашняя — Кирилл Буланов', html: function () {
@@ -31,7 +32,7 @@
     'bulanos://about': { title: 'Об авторе', html: function () { return '<div class="web"><h1>' + A.name + '</h1><p><img src="assets/photos/kirill-avatar.jpg" alt="' + A.name + '" width="120" height="120" style="float:left;margin:0 14px 8px 0;border:3px ridge #ccc">' + A.roles.join(', ') + '. Снимает рекламу, пишет кино и делает AI-проекты.</p><p><a href="#" data-app="about">Открыть «Обо_мне.exe»</a> · <a href="#" data-app="director">Режиссура</a></p></div>'; } },
     'bulanos://contacts': { title: 'Контакты — ' + A.name, html: function () { return '<div class="web"><h1>Контакты</h1><ul><li>Email: <a href="mailto:' + A.email + '">' + A.email + '</a></li><li>Telegram: <a href="https://t.me/' + A.telegram + '" target="_blank" rel="noopener">@' + A.telegram + '</a></li><li>Телефон: <a href="tel:' + A.phoneHref + '">' + A.phone + '</a></li><li>Instagram: <a href="https://instagram.com/' + A.instagram + '" target="_blank" rel="noopener">@' + A.instagram + '</a></li></ul><p><a href="#" data-app="contacts">Открыть приложение «Контакты»</a></p></div>'; } }
   };
-  var GAMES = { 'bulanos://bulanozavr': ['dino', 'БУЛАНОЗАВР', 'rec-dino'], 'bulanos://turnik': ['turnik', 'КИРИЛЛ НА ТУРНИКЕ', 'rec-turnik'] };
+  var GAMES = { 'bulanos://bulanozavr': ['dino', 'БУЛАНОЗАВР', 'rec-dino'], 'bulanos://turnik': ['turnik', 'КИРИЛЛ НА ТУРНИКЕ', 'rec-turnik'], 'bulanos://escape': ['escape', 'ПОБЕГ ОТ ОПЕРАТОРА', 'rec-escape'] };
 
   var tabSeq = 0;
   function Browser(w) {
@@ -108,14 +109,15 @@
   Browser.prototype.mountGame = function (t, url) {
     var self = this, g = GAMES[url];
     t.title = g[1]; t.page.className = 'br-page game';
-    t.page.innerHTML = '<div class="gamebar"><b style="font:11px \'Press Start 2P\',monospace;padding:0 6px">' + g[1] + '</b><button type="button" class="b3 gp">❚❚ Пауза</button><button type="button" class="b3 gr">⟳ Заново</button><button type="button" class="b3 gs"></button><button type="button" class="b3 gx">Выход</button><span class="sp"></span></div><div class="gamewrap"><canvas tabindex="0" aria-label="Игровое поле ' + g[1] + '"></canvas></div>';
+    t.page.innerHTML = '<div class="gamebar"><b class="gtitle">' + g[1] + '</b><button type="button" class="b3 gp">❚❚ Пауза</button><button type="button" class="b3 gr">⟳ Заново</button><button type="button" class="b3 gs"></button><button type="button" class="b3 gx">Выход</button><span class="sp"></span></div><div class="gamewrap"><canvas tabindex="0" aria-label="Игровое поле ' + g[1] + '"></canvas></div>';
     var cv = $('canvas', t.page), sp = $('.sp', t.page), gp = $('.gp', t.page), gs = $('.gs', t.page);
     function sUI() { gs.textContent = BOS.gameSound() ? '♪ Звук: вкл' : '♪ Звук: выкл'; }
     sUI();
     var ctl = BOS.games[g[0]](cv, {
       score: function (s, best) { sp.textContent = 'СЧЁТ ' + s + ' · РЕКОРД ' + best; },
       state: function (st) { gp.textContent = st === 'paused' ? '▶ Продолжить' : '❚❚ Пауза'; gp.disabled = st === 'over' || st === 'ready'; },
-      recordKey: g[2]
+      recordKey: g[2],
+      exit: function () { if (t.idx > 0) self.go(-1); else self.nav('bulanos://games'); }
     });
     t.game = ctl;
     gp.addEventListener('click', function () { if (ctl.isPaused()) ctl.resume(); else ctl.pause(); cv.focus(); });

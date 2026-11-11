@@ -171,7 +171,8 @@ a { color: #0000ee; }
 .web { padding: 18px; max-width: 900px; margin: 0 auto; font: 14px/1.5 'Times New Roman', serif; }
 .web h1 { font: 400 40px/1 'Lobster', cursive; color: var(--blue); margin: 0 0 6px; }
 .web h2 { font: 13px 'Press Start 2P', monospace; color: #c00; margin: 22px 0 10px; }
-.gcards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.gcards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.gamebar .gtitle { font: 11px 'Press Start 2P', monospace; padding: 0 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; flex: 0 1 auto; }
 .gcard { display: flex; flex-direction: column; text-align: left; padding: 0; border: 3px outset #ccc; background: #000; color: #fff; cursor: pointer; font: inherit; }
 .gcard:hover { border-color: #ffd400; }
 .gcard canvas { width: 100%; aspect-ratio: 16 / 9; image-rendering: pixelated; display: block; }
@@ -267,6 +268,7 @@ a { color: #0000ee; }
   .props { grid-template-columns: 1fr; }
   .contacts { grid-template-columns: 1fr; }
   .gcards { grid-template-columns: 1fr; }
+  .gamebar .gtitle { display: none; }
   .tasks .b3 { min-width: 0; max-width: 140px; }
   .smenu { left: 0; right: 0; width: auto; max-height: calc(100% - var(--tb) - 4px); overflow: auto; }
   .smenu .band { display: none; }

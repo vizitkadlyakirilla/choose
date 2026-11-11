@@ -211,7 +211,7 @@
     BOS.open('about', m ? {} : { x: Math.round(ir.right + 12), y: 16 });
     if (!m) setTimeout(function () { BOS.open('director'); var a = wins.about; if (a) focus(a); }, 120);
     setTimeout(function () { BOS.notify('Добро пожаловать в BulanOS', 'Это компьютер Кирилла Буланова. Открывайте иконки, меню «Пуск» — внизу слева.'); }, 600);
-    setTimeout(function () { if (!$('#off').hidden || !$('#boot').hidden) return; BOS.notify('Буланозавр скучает', 'В браузере есть две мини-игры.', { action: { label: 'Сыграть', fn: function () { BOS.open('browser', { url: 'bulanos://games' }); } }, timeout: 9000 }); }, 9000);
+    setTimeout(function () { if (!$('#off').hidden || !$('#boot').hidden) return; BOS.notify('Буланозавр скучает', 'В браузере есть три мини-игры.', { action: { label: 'Сыграть', fn: function () { BOS.open('browser', { url: 'bulanos://games' }); } }, timeout: 9000 }); }, 9000);
   }
 
   /* ---------- инициализация ---------- */

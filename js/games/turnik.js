@@ -175,5 +175,5 @@
     [[W * .35, 70, '#d8d8d8'], [W * .62, 22, '#ffd400']].forEach(function (b) { x.fillStyle = '#5c5c66'; x.fillRect(b[0] - 20, b[1], 2, 40); x.fillRect(b[0] + 18, b[1], 2, 40); x.fillStyle = b[2]; x.fillRect(b[0] - 20, b[1] - 1, 40, 2); });
     drawKirill(x, TUCKR, Math.round(W * .48), 34, -0.6, 1);
   };
-  G.preview = function (c, kind) { if (kind === 'dino') G.previewDino(c); else if (kind === 'dino404') G.previewDino(c, true); else G.previewTurnik(c); };
+  G.preview = function (c, kind) { if (kind === 'dino') G.previewDino(c); else if (kind === 'dino404') G.previewDino(c, true); else if (kind === 'escape' && G.previewEscape) G.previewEscape(c); else G.previewTurnik(c); };
 })(typeof window !== 'undefined' ? window : globalThis);
