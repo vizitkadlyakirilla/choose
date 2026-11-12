@@ -54,3 +54,9 @@ window.BOS_CATS = { ads: 'Реклама', film: 'Кино', exp: 'Экспер�
 /* Фото для корзины (IMG_2013_НЕ_ПОКАЗЫВАТЬ.jpg). Когда заказчик пришлёт файл:
    положить его в assets/photos/img-2013-ne-pokazyvat.jpg и указать путь здесь. */
 window.BOS_TRASH_PHOTO = 'assets/photos/img-2013-ne-pokazyvat.jpg';
+
+/* Фотографии для «Галереи» (только реальные снимки Кирилла). Новое фото — добавить первым элементом. */
+window.BOS_PHOTOS = [
+  { src: 'assets/photos/kirill-river.jpg', alt: 'Кирилл Буланов у реки, сидит на пне', name: 'у_реки.jpg' },
+  { src: 'assets/photos/kirill-turnik.jpg', alt: 'Кирилл Буланов на турнике, чёрно-белое фото', name: 'турник.jpg' }
+];

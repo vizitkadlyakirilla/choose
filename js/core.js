@@ -8,11 +8,14 @@
   BOS.store = function (k, v) {
     try { if (v === undefined) return JSON.parse(localStorage.getItem('bos-' + k) || 'null'); localStorage.setItem('bos-' + k, JSON.stringify(v)); } catch (e) { return null; }
   };
-  BOS.mobile = function () { return window.matchMedia('(max-width: 760px)').matches; };
+  BOS.mobile = function () { return BOS.MODE === 'mobile' || window.matchMedia('(max-width: 760px)').matches; };
+  /* Режим сайта выбирается один раз при загрузке (скрипт в <head>): телефон — BULAN OS MOBILE, компьютер — BulanOS 98 */
+  BOS.MODE = document.documentElement.classList.contains('m-mode') ? 'mobile' : 'desktop';
+  BOS.switchMode = function (m) { try { localStorage.setItem('bos-mode', JSON.stringify(m)); } catch (e) {} location.reload(); };
 
   /* ---------- Настройки ---------- */
   var sysReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var defaults = { sound: true, volume: 0.5, reduced: sysReduced, wallpaper: 'stars' };
+  var defaults = { sound: true, volume: 0.5, reduced: sysReduced, wallpaper: 'stars', music: 0.7, fx: 0.8, mwall: 'night', lockEvery: false, gameButtons: false };
   BOS.settings = Object.assign({}, defaults, BOS.store('settings') || {});
   BOS.setSetting = function (k, v) {
     BOS.settings[k] = v; BOS.store('settings', BOS.settings); BOS.applySettings();
@@ -28,13 +31,13 @@
   /* ---------- Звуки ---------- */
   var ctx = null;
   function ac() { if (!ctx) { var C = window.AudioContext || window.webkitAudioContext; if (C) ctx = new C(); } if (ctx && ctx.state === 'suspended') ctx.resume(); return ctx; }
-  function tone(o) {
+  function tone(o, dest, mul) {
     var c = ac(); if (!c) return;
-    var t = c.currentTime + (o.delay || 0), osc = c.createOscillator(), g = c.createGain(), vol = (o.vol || 0.25) * BOS.settings.volume;
+    var t = c.currentTime + (o.delay || 0), osc = c.createOscillator(), g = c.createGain(), vol = (o.vol || 0.25) * (mul == null ? BOS.settings.volume : mul);
     osc.type = o.type || 'square'; osc.frequency.setValueAtTime(o.f, t);
     if (o.to) osc.frequency.exponentialRampToValueAtTime(o.to, t + o.d);
     g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(Math.max(vol, 0.0002), t + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t + o.d);
-    osc.connect(g); g.connect(c.destination); osc.start(t); osc.stop(t + o.d + 0.02);
+    osc.connect(g); g.connect(dest || c.destination); osc.start(t); osc.stop(t + o.d + 0.02);
   }
   var SFX = {
     click: [{ f: 900, d: 0.04, vol: 0.12 }],
@@ -64,6 +67,9 @@
     try { s.forEach(tone); } catch (e) {}
   };
   BOS.unlockAudio = function () { ac(); };
+  BOS.audioCtx = ac;
+  /* звук по таблице SFX в произвольный узел (игровые эффекты идут через BOS.audio) */
+  BOS.sfxTo = function (name, dest, mul) { var s = SFX[name]; if (!s) return false; try { s.forEach(function (o) { tone(o, dest, mul); }); } catch (e) {} return true; };
   document.addEventListener('pointerdown', function once() { ac(); document.removeEventListener('pointerdown', once); });
 
   /* ---------- Видео: источники только из assets/videos/manifest.js ---------- */

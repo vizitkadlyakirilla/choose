@@ -23,7 +23,7 @@
   var GROUND = 140, H = 160;
 
   G.dino = function (canvas, hooks) {
-    var g = new G.Game(canvas, H, hooks); g.minW = 260; g.bg = '#06063a';
+    var g = new G.Game(canvas, H, hooks); g.song = 'dino'; g.minW = 260; g.bg = '#06063a';
     var city = G.city(11, 900), stars = [];
     for (var i = 0; i < 60; i++) stars.push([Math.random() * 1200, Math.random() * 90, Math.random() > .8 ? 2 : 1]);
     function reset() {
@@ -57,6 +57,7 @@
       g.t += dt; g.speed = Math.min(430, 150 + g.t * 6.5);
       var dx = g.speed * dt; g.dist += dx; var prev = Math.floor(g.score); g.score += dx * 0.12;
       if (Math.floor(g.score / 100) > Math.floor(prev / 100)) { G.sfx('score'); g.flash = 0.6; }
+      if (BOS.audio) BOS.audio.set('i', g.score < 120 ? 0 : g.score < 350 ? 1 : g.score < 800 ? 2 : 3, g);
       if (Math.floor(g.score) !== prev) g.emit();
       d.vy += (d.holding && d.vy < 0 ? 900 : 1400) * dt; d.y += d.vy * dt;
       if (d.y >= GROUND - 20) { if (!d.on) { d.landT = 0.12; G.sfx('land'); for (var i = 0; i < 5; i++) g.parts.push({ x: d.x + 6 + Math.random() * 8, y: GROUND - 1, vx: -30 - Math.random() * 40, vy: -20 - Math.random() * 30, t: 0.4 }); } d.y = GROUND - 20; d.vy = 0; d.on = true; }
@@ -68,7 +69,7 @@
       /* столкновения: прямоугольник тела с запасом */
       var bx = d.x + 3, by = d.y + 2, bw = 14, bh = 17;
       for (var j = 0; j < g.obs.length; j++) { var o = g.obs[j];
-        if (bx < o.x + o.w - 1 && bx + bw > o.x + 1 && by < o.y + o.h - 1 && by + bh > o.y + 1) { g.setState('over'); g.overT = 0; G.sfx('hit'); g.record(); break; } }
+        if (bx < o.x + o.w - 1 && bx + bw > o.x + 1 && by < o.y + o.h - 1 && by + bh > o.y + 1) { g.setState('over'); g.overT = 0; G.sfx('hit'); if (BOS.audio) { BOS.audio.stop(g, 'cut'); BOS.audio.sfx('clapper'); } g.record(); break; } }
     };
     var tAnim = 0;
     g.draw = function () {

@@ -11,11 +11,22 @@
 <meta property="og:type" content="website">
 <meta property="og:image" content="assets/photos/kirill-portrait.jpg">
 <meta name="theme-color" content="#06063a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<script>/* выбор интерфейса до отрисовки: телефон → BULAN OS MOBILE, компьютер → BulanOS 98. ?mode=mobile|desktop — принудительно */
+(function () { try {
+  var q = location.search.match(/[?&]mode=(mobile|desktop)\b/), m = q ? q[1] : JSON.parse(localStorage.getItem('bos-mode') || 'null');
+  if (q) localStorage.setItem('bos-mode', JSON.stringify(m));
+  if (m !== 'mobile' && m !== 'desktop') { var s = Math.min(screen.width, screen.height), touch = matchMedia('(pointer: coarse)').matches && !matchMedia('(pointer: fine)').matches; m = (innerWidth <= 760 || (touch && s <= 900)) ? 'mobile' : 'desktop'; }
+  if (m === 'mobile') document.documentElement.classList.add('m-mode');
+} catch (e) {} })();</script>
 <link rel="icon" href="assets/photos/kirill-avatar.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/os.css">
+<link rel="stylesheet" href="css/mobile.css">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Кирилл Буланов","jobTitle":["Режиссёр","Сценарист","AI-креатор"],"email":"mailto:bulanozavr@mail.ru","telephone":"+79150183176","sameAs":["https://t.me/bulanozavr","https://instagram.com/bulanozavr_"]}</script>
 </head>
 <body>
@@ -53,6 +64,7 @@
 <script src="assets/videos/manifest.js"></script>
 <script src="js/data.js"></script>
 <script src="js/core.js"></script>
+<script src="js/audio.js"></script>
 <script src="js/games/engine.js"></script>
 <script src="js/games/bulanozavr.js"></script>
 <script src="js/games/turnik.js"></script>
@@ -62,6 +74,7 @@
 <script src="js/trash-doc.js"></script>
 <script src="js/trash.js"></script>
 <script src="js/os.js"></script>
+<script src="js/mobile.js"></script>
 <script>
 /* иконки рабочего стола */
 (function () {

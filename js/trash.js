@@ -13,7 +13,7 @@
       '<header class="tb">' + BOS.icon(o.icon || 'warn') + '<span class="t" id="dlg-t-' + o.id + '">' + BOS.esc(o.title) + '</span><div class="ctl"><button type="button" class="bcls" aria-label="Закрыть">×</button></div></header>' +
       '<div class="dlg-body"><div class="dlg-ic" aria-hidden="true">' + BOS.icon(o.icon || 'warn') + '</div><div id="dlg-d-' + o.id + '">' + (o.heading ? '<b class="dlg-h">' + BOS.esc(o.heading) + '</b>' : '') + '<p>' + o.html + '</p></div></div>' +
       '<div class="dlg-btns">' + o.buttons.map(function (b, i) { return '<button type="button" class="b3' + (i === 0 ? ' dflt' : '') + '" data-v="' + b.value + '">' + BOS.esc(b.label) + '</button>'; }).join('') + '</div></div>';
-    document.getElementById('desktop').appendChild(ov);
+    (document.getElementById('m-dlg') || document.getElementById('desktop')).appendChild(ov);
     var box = $('.dlg', ov), last = document.activeElement, api = { box: box, ov: ov };
     function done(v) {
       if (!dialogs[o.id]) return; if (o.before) o.before(v, box); delete dialogs[o.id];
@@ -91,6 +91,8 @@
     });
   }
   BOS.trashOpen = openItem;
+  BOS.trashItems = function () { return ITEMS; };
+  BOS.trashProps = function (id) { props(id); };
 
   function props(id) {
     var it = ITEMS.filter(function (x) { return x.id === id; })[0];
@@ -179,7 +181,9 @@
         w.data.io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting && !w.data.endShown) { w.data.endShown = true; w.data.io.disconnect(); w.data.endT = setTimeout(function () { finale(w); }, 700); } }); }, { root: scroll, threshold: 0 });
         w.data.io.observe(el);
       }
-      var st = 0; scroll.addEventListener('scroll', function () { if (!st) st = requestAnimationFrame(function () { st = 0; status(); }); }, { passive: true });
+      var st = 0; scroll.addEventListener('scroll', function () { if (!st) st = requestAnimationFrame(function () { st = 0; status();
+        /* дочитал до самого низа (быстрая прокрутка могла «перепрыгнуть» метку конца) */
+        if (!w.data.endShown && scroll.scrollTop + scroll.clientHeight >= scroll.scrollHeight - 4) { w.data.endShown = true; if (w.data.io) w.data.io.disconnect(); w.data.endT = setTimeout(function () { finale(w); }, 700); } }); }, { passive: true });
       var rt = 0; w.data.ro = new ResizeObserver(function () { clearTimeout(rt); rt = setTimeout(paginate, 120); }); w.data.ro.observe(scroll);
       function zoom(d) { w.data.zoom = Math.max(0.8, Math.min(1.5, Math.round((w.data.zoom + d) * 10) / 10)); $('.ed-z', w.body).textContent = Math.round(w.data.zoom * 100) + '%'; paginate(); BOS.sfx('click'); }
       $('.ed-zi', w.body).addEventListener('click', function () { zoom(0.1); });
@@ -218,7 +222,7 @@
     });
   }
   function redelete(w) {
-    var icon = $('.ic[data-app="trash"]'), r = w.el.getBoundingClientRect(), t = icon ? icon.getBoundingClientRect() : { left: 20, top: innerHeight - 80, width: 40, height: 40 };
+    var icon = $('.ic[data-app="trash"]') || $('.ph-nav .nb-home'), r = w.el.getBoundingClientRect(), t = icon ? icon.getBoundingClientRect() : { left: 20, top: innerHeight - 80, width: 40, height: 40 };
     var dx = t.left + t.width / 2 - (r.left + r.width / 2), dy = t.top + t.height / 2 - (r.top + r.height / 2);
     BOS.sfx('trash');
     if (BOS.reduced()) { done(); return; }
@@ -229,7 +233,7 @@
     function done() {
       w.close();
       var tw = BOS.open('trash');
-      if (tw) { tw.data.select && tw.data.select('doc'); var row = $('.tr-row[data-id="doc"]', tw.body); if (row) { row.classList.remove('back'); void row.offsetWidth; row.classList.add('back'); } tw.setStatus([D.file, 'Снова удалён', 'Он всегда возвращается']); }
+      if (tw) { tw.data.select && tw.data.select('doc'); var row = $('.tr-row[data-id="doc"], .fm-row[data-id="doc"]', tw.body); if (row) { row.classList.remove('back'); void row.offsetWidth; row.classList.add('back'); } tw.setStatus([D.file, 'Снова удалён', 'Он всегда возвращается']); }
       if (icon) { icon.classList.remove('gulp'); void icon.offsetWidth; icon.classList.add('gulp'); }
     }
   }

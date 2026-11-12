@@ -175,6 +175,9 @@
       var s = BOS.settings;
       w.body.innerHTML = '<div class="set"><fieldset><legend>Звук</legend><label><input type="checkbox" name="sound"' + (s.sound ? ' checked' : '') + '> Звуки интерфейса и игр</label>' +
         '<label>Громкость эффектов <input type="range" name="volume" min="0" max="1" step="0.05" value="' + s.volume + '" style="flex:1"> <output>' + Math.round(s.volume * 100) + '%</output></label><button type="button" class="b3 test">Проверить звук</button></fieldset>' +
+        '<fieldset><legend>Музыка и звуки в играх</legend><label><input type="checkbox" name="gsnd"' + (BOS.gameSound() ? ' checked' : '') + '> Музыка и эффекты в мини-играх</label>' +
+        '<label>Музыка <input type="range" name="music" min="0" max="1" step="0.05" value="' + (s.music == null ? 0.7 : s.music) + '" style="flex:1"> <output class="om">' + Math.round((s.music == null ? 0.7 : s.music) * 100) + '%</output></label>' +
+        '<label>Эффекты <input type="range" name="fx" min="0" max="1" step="0.05" value="' + (s.fx == null ? 0.8 : s.fx) + '" style="flex:1"> <output class="of">' + Math.round((s.fx == null ? 0.8 : s.fx) * 100) + '%</output></label></fieldset>' +
         '<fieldset><legend>Анимации</legend><label><input type="checkbox" name="reduced"' + (s.reduced ? ' checked' : '') + '> Отключить сложные анимации (бегущая строка, звёзды, переходы)</label></fieldset>' +
         '<fieldset><legend>Обои рабочего стола</legend><div class="wps">' + WP.map(function (p) { return '<button type="button" data-wp="' + p[0] + '" aria-pressed="' + (s.wallpaper === p[0]) + '"><i style="background:' + p[2] + '"></i>' + p[1] + '</button>'; }).join('') + '</div></fieldset>' +
         '<fieldset><legend>О системе</legend><pre class="sysinfo"></pre></fieldset>' +
@@ -182,6 +185,9 @@
       var b = w.body;
       $('[name=sound]', b).addEventListener('change', function () { BOS.setSetting('sound', this.checked); if (this.checked) BOS.sfx('notify'); });
       $('[name=volume]', b).addEventListener('input', function () { BOS.setSetting('volume', +this.value); $('output', b).textContent = Math.round(this.value * 100) + '%'; });
+      $('[name=music]', b).addEventListener('input', function () { BOS.setSetting('music', +this.value); $('.om', b).textContent = Math.round(this.value * 100) + '%'; });
+      $('[name=fx]', b).addEventListener('input', function () { BOS.setSetting('fx', +this.value); $('.of', b).textContent = Math.round(this.value * 100) + '%'; if (BOS.audio) BOS.audio.sfx('score'); });
+      $('[name=gsnd]', b).addEventListener('change', function () { BOS.store('gamesound', this.checked); if (BOS.audio) BOS.audio.apply(); });
       $('[name=volume]', b).addEventListener('change', function () { BOS.sfx('click'); });
       $('.test', b).addEventListener('click', function () { BOS.sfx('notify', true); });
       $('[name=reduced]', b).addEventListener('change', function () { BOS.setSetting('reduced', this.checked); });
@@ -193,5 +199,5 @@
     },
     onClose: function (w) { clearInterval(w.data.t); }
   };
-  document.addEventListener('bos:settings', function (e) { if (e.detail && e.detail.key !== 'volume') { var t = document.querySelector('.toast b'); if (!t || t.textContent !== 'Настройки') BOS.notify('Настройки', 'Сохранено. Изменения запомнятся до следующего визита.', { timeout: 2500 }); } });
+  document.addEventListener('bos:settings', function (e) { if (BOS.MODE === 'mobile') return; if (e.detail && ['volume', 'music', 'fx', 'gameButtons'].indexOf(e.detail.key) < 0) { var t = document.querySelector('.toast b'); if (!t || t.textContent !== 'Настройки') BOS.notify('Настройки', 'Сохранено. Изменения запомнятся до следующего визита.', { timeout: 2500 }); } });
 })();

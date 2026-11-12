@@ -106,25 +106,42 @@
     $$('canvas[data-preview]', t.page).forEach(function (c) { if (BOS.games && BOS.games.preview) BOS.games.preview(c, c.dataset.preview); });
     this.drawTabs(); this.chrome();
   };
-  Browser.prototype.mountGame = function (t, url) {
-    var self = this, g = GAMES[url];
-    t.title = g[1]; t.page.className = 'br-page game';
-    t.page.innerHTML = '<div class="gamebar"><b class="gtitle">' + g[1] + '</b><button type="button" class="b3 gp">❚❚ Пауза</button><button type="button" class="b3 gr">⟳ Заново</button><button type="button" class="b3 gs"></button><button type="button" class="b3 gx">Выход</button><span class="sp"></span></div><div class="gamewrap"><canvas tabindex="0" aria-label="Игровое поле ' + g[1] + '"></canvas></div>';
-    var cv = $('canvas', t.page), sp = $('.sp', t.page), gp = $('.gp', t.page), gs = $('.gs', t.page);
-    function sUI() { gs.textContent = BOS.gameSound() ? '♪ Звук: вкл' : '♪ Звук: выкл'; }
+  /* Запуск игры в странице вкладки — общий для компьютера и телефона. o.exit — выход, o.mobile — компактная панель и экранные кнопки */
+  BOS.GAMES = GAMES;
+  BOS.mountGame = function (t, url, o) {
+    var g = GAMES[url]; o = o || {};
+    t.title = g[1]; t.page.className = 'br-page game' + (o.mobile ? ' m-game' : '');
+    if (o.mobile) {
+      t.page.innerHTML = '<div class="gamebar mgb"><button type="button" class="gbtn gx" aria-label="Выйти из игры">✕</button><b class="gtitle">' + g[1] + '</b><span class="sp"></span><button type="button" class="gbtn gs" aria-label="Звук"></button><button type="button" class="gbtn gr" aria-label="Заново">⟳</button><button type="button" class="gbtn gp" aria-label="Пауза">❚❚</button>' + (g[0] === 'escape' ? '<button type="button" class="gbtn gk" aria-label="Экранные кнопки" aria-pressed="false">✥</button>' : '') + '<button type="button" class="gbtn gf" aria-label="Во весь экран">⤢</button></div>' +
+        '<div class="gamewrap"><canvas tabindex="0" aria-label="Игровое поле ' + g[1] + '"></canvas></div>' + (g[0] === 'escape' ? '<div class="gpad" hidden><button type="button" data-a="left" aria-label="Влево">◀</button><button type="button" data-a="jump" aria-label="Прыжок">▲</button><button type="button" data-a="slide" aria-label="Подкат">▼</button><button type="button" data-a="right" aria-label="Вправо">▶</button></div>' : '');
+    } else t.page.innerHTML = '<div class="gamebar"><b class="gtitle">' + g[1] + '</b><button type="button" class="b3 gp">❚❚ Пауза</button><button type="button" class="b3 gr">⟳ Заново</button><button type="button" class="b3 gs"></button><button type="button" class="b3 gx">Выход</button><span class="sp"></span></div><div class="gamewrap"><canvas tabindex="0" aria-label="Игровое поле ' + g[1] + '"></canvas></div>';
+    var cv = BOS.$('canvas', t.page), sp = BOS.$('.sp', t.page), gp = BOS.$('.gp', t.page), gs = BOS.$('.gs', t.page);
+    function sUI() { gs.textContent = o.mobile ? (BOS.gameSound() ? '♪' : '♪̸') : (BOS.gameSound() ? '♪ Звук: вкл' : '♪ Звук: выкл'); gs.setAttribute('aria-pressed', BOS.gameSound() ? 'true' : 'false'); }
     sUI();
     var ctl = BOS.games[g[0]](cv, {
-      score: function (s, best) { sp.textContent = 'СЧЁТ ' + s + ' · РЕКОРД ' + best; },
-      state: function (st) { gp.textContent = st === 'paused' ? '▶ Продолжить' : '❚❚ Пауза'; gp.disabled = st === 'over' || st === 'ready'; },
+      score: function (s, best) { sp.textContent = o.mobile ? s + ' · ' + best : 'СЧЁТ ' + s + ' · РЕКОРД ' + best; },
+      state: function (st) { gp.textContent = st === 'paused' ? (o.mobile ? '▶' : '▶ Продолжить') : (o.mobile ? '❚❚' : '❚❚ Пауза'); gp.disabled = st !== 'run' && st !== 'paused'; },
       recordKey: g[2],
-      exit: function () { if (t.idx > 0) self.go(-1); else self.nav('bulanos://games'); }
+      exit: function () { if (o.exit) o.exit(); }
     });
     t.game = ctl;
     gp.addEventListener('click', function () { if (ctl.isPaused()) ctl.resume(); else ctl.pause(); cv.focus(); });
-    $('.gr', t.page).addEventListener('click', function () { ctl.restart(); cv.focus(); });
-    gs.addEventListener('click', function () { BOS.store('gamesound', !BOS.gameSound()); sUI(); cv.focus(); });
-    $('.gx', t.page).addEventListener('click', function () { if (t.idx > 0) self.go(-1); else self.nav('bulanos://games'); });
+    BOS.$('.gr', t.page).addEventListener('click', function () { ctl.restart(); cv.focus(); });
+    gs.addEventListener('click', function () { BOS.store('gamesound', !BOS.gameSound()); if (BOS.audio) BOS.audio.apply(); sUI(); cv.focus(); });
+    BOS.$('.gx', t.page).addEventListener('click', function () { if (o.exit) o.exit(); });
+    var gk = BOS.$('.gk', t.page), pad = BOS.$('.gpad', t.page);
+    if (gk && pad) {
+      function kUI() { var on = !!BOS.settings.gameButtons; pad.hidden = !on; gk.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      gk.addEventListener('click', function () { BOS.setSetting('gameButtons', !BOS.settings.gameButtons); kUI(); });
+      BOS.$$('button', pad).forEach(function (b) { b.addEventListener('pointerdown', function (e) { e.preventDefault(); if (ctl.act) ctl.act(b.dataset.a); }); });
+      kUI();
+    }
+    var gf = BOS.$('.gf', t.page); if (gf && o.fullscreen) gf.addEventListener('click', function () { o.fullscreen(); cv.focus(); });
     setTimeout(function () { cv.focus(); }, 50);
+    return ctl;
+  };
+  Browser.prototype.mountGame = function (t, url) {
+    var self = this; BOS.mountGame(t, url, { exit: function () { if (t.idx > 0) self.go(-1); else self.nav('bulanos://games'); } });
   };
   Browser.prototype.pauseAll = function () { this.tabs.forEach(function (t) { if (t.game) t.game.pause(); }); };
   Browser.prototype.destroy = function () { this.tabs.forEach(function (t) { if (t.game) t.game.destroy(); }); };

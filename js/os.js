@@ -216,6 +216,7 @@
 
   /* ---------- инициализация ---------- */
   function init() {
+    if (BOS.MODE === 'mobile') return;            /* на телефоне работает BULAN OS MOBILE (js/mobile.js) */
     buildMenu(); clock();
     $('#startlogo').src = BOS.logoURL(3);
     $('#start').addEventListener('click', function (e) { e.stopPropagation(); if ($('#smenu').hidden) openMenu(); else closeMenu(); });
