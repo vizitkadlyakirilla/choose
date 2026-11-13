@@ -1,6 +1,7 @@
 /* BULAN OS MOBILE — «старый смартфон Кирилла». Работает только в режиме html.m-mode (см. скрипт в <head>).
    Своя система: глянцевые плитки 2012–2014 годов с пиксельными значками BulanOS, тёмные панели, зелёный акцент «Буланозавра». */
 .m-mode, .m-mode body { margin: 0; height: 100%; overflow: hidden; background: #000; overscroll-behavior: none; -webkit-text-size-adjust: 100%; }
+.m-mode body { position: fixed; inset: 0; width: 100%; }
 .m-mode #screen, .m-mode .sys, .m-mode .smenu { display: none !important; }
 .m-mode body { font: 15px/1.4 -apple-system, "Roboto", "Segoe UI", "Helvetica Neue", Arial, sans-serif; color: #f2f2f5; -webkit-tap-highlight-color: transparent; }
 
@@ -34,14 +35,21 @@
 .ph-nav svg { width: 26px; height: 22px; fill: none; stroke: #fff; stroke-width: 2.2; stroke-linejoin: round; stroke-linecap: round; }
 
 /* ---------- домашний экран ---------- */
-.ph-home { position: absolute; left: 0; right: 0; top: calc(var(--sb) + var(--safe-t)); bottom: calc(var(--nav) + var(--safe-b)); display: flex; flex-direction: column; padding: 10px calc(12px + var(--safe-r)) 6px calc(12px + var(--safe-l)); box-sizing: border-box; overflow-y: auto; overflow-x: hidden; }
+.ph-home { position: absolute; left: 0; right: 0; top: calc(var(--sb) + var(--safe-t)); bottom: calc(var(--nav) + var(--safe-b)); display: flex; flex-direction: column; padding: 10px calc(12px + var(--safe-r)) 6px calc(12px + var(--safe-l)); box-sizing: border-box; overflow: hidden; touch-action: manipulation; overscroll-behavior: none; }
 .ph-home .grow { flex: 1; min-height: 8px; }
 .wg { border-radius: 16px; background: linear-gradient(rgba(20,22,40,.78), rgba(10,10,24,.82)); border: 1px solid rgba(255,255,255,.14); box-shadow: 0 6px 18px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.12); margin-bottom: 12px; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
 .wg-me { display: grid; grid-template-columns: 74px 1fr; gap: 12px; padding: 12px; align-items: center; }
 .wg-me img { width: 74px; height: 74px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,.75); box-shadow: 0 0 0 3px rgba(60,255,0,.35); }
 .wg-me h1 { margin: 0; font: 600 21px/1.15 -apple-system, "Roboto", sans-serif; letter-spacing: -.01em; }
 .wg-me .roles { margin: 3px 0 9px; font-size: 12.5px; color: #c7c9d8; }
-.wg-me .row { display: flex; gap: 8px; flex-wrap: wrap; }
+.wg-me .row { display: flex; gap: 6px; flex-wrap: nowrap; }
+.wg-me .row .pill { padding: 0 12px; white-space: nowrap; flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.me-ph, .me-nm { border: 0; background: none; padding: 0; color: inherit; text-align: left; cursor: pointer; }
+.me-nm { display: block; width: 100%; min-width: 0; }
+.me-nm h1 span { color: #9aa3c4; font-weight: 400; }
+.me-nm .roles { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.wg-me > div { min-width: 0; }
+.me-ph:active img, .me-nm:active { opacity: .8; }
 .pill { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 14px; border-radius: 18px; border: 1px solid rgba(255,255,255,.25); background: linear-gradient(#3a3f55, #252838); color: #fff; font-weight: 600; font-size: 14px; cursor: pointer; text-decoration: none; box-shadow: inset 0 1px 0 rgba(255,255,255,.2); }
 .pill.pri { background: linear-gradient(#5dff2e, #24b800); color: #062200; border-color: #8aff60; text-shadow: 0 1px 0 rgba(255,255,255,.35); }
 .pill:active { transform: translateY(1px); filter: brightness(.92); }
@@ -344,12 +352,6 @@
   .ph-lock .clk { font-size: 64px; }
   .gbtn { width: 33px; }
 }
-@media (max-height: 640px) and (orientation: portrait) {
-  .wg-me { padding: 10px; gap: 10px; } .wg-me .roles { margin-bottom: 6px; } .pill { min-height: 32px; }
-  .wg-g { display: none; }
-  .ph-home .hint { display: none; }
-  .ph-home { padding-top: 8px; } .grid { gap: 10px 4px; padding-bottom: 4px; } .dock { padding: 8px 6px 6px; }
-}
 @media (min-width: 600px) {
   .ph-home { padding-left: calc(10% + var(--safe-l)); padding-right: calc(10% + var(--safe-r)); }
   .grid { grid-template-columns: repeat(6, 1fr); }
@@ -370,3 +372,11 @@
 }
 .bos-reduced .ph *, .bos-reduced .ph *::before, .bos-reduced .ph *::after { animation: none !important; transition: none !important; }
 @media (prefers-reduced-motion: reduce) { .ph *, .ph *::before, .ph *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+
+/* ---------- автоподгонка главного экрана: без прокрутки на любой высоте (классы ставит js/mobile.js) ---------- */
+.ph-home.f1 .hint { display: none; }
+.ph-home.f2 .wg-g canvas { aspect-ratio: 16 / 6; } .ph-home.f2 .wg { margin-bottom: 8px; } .ph-home.f2 .grid { gap: 10px 4px; padding: 2px 0 6px; }
+.ph-home.f3 .wg-g { display: none; }
+.ph-home.f4 .mh-ic .tile { width: 48px; height: 48px; border-radius: 12px; } .ph-home.f4 .mh-ic .tile svg { width: 30px; height: 30px; } .ph-home.f4 .mh-ic .lb { font-size: 11px; } .ph-home.f4 .dock { padding: 6px 4px 5px; } .ph-home.f4 { padding-top: 6px; }
+.ph-home.f5 .wg-me { grid-template-columns: 52px 1fr; padding: 8px 10px; gap: 10px; } .ph-home.f5 .wg-me img { width: 52px; height: 52px; } .ph-home.f5 .wg-me h1 { font-size: 17px; } .ph-home.f5 .wg-me .roles { display: none; } .ph-home.f5 .wg-me .row { margin-top: 6px; } .ph-home.f5 .pill { min-height: 30px; font-size: 12.5px; padding: 0 9px; }
+.ph-home.f6 .mh-ic .lb { display: none; } .ph-home.f6 .grid { gap: 8px 4px; } .ph-home.f6 .mh-ic .tile { width: 42px; height: 42px; } .ph-home.f6 .mh-ic .tile svg { width: 26px; height: 26px; }

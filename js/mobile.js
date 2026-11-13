@@ -40,7 +40,7 @@
     x.fillStyle = gr; x.fillRect(0, 0, W, Hh);
     for (i = 0; i < 140; i++) { x.fillStyle = rnd(i) > 0.85 ? '#ffd400' : 'rgba(220,230,255,.8)'; x.fillRect(Math.floor(rnd(i * 3) * W), Math.floor(rnd(i * 5) * Hh * (k === 'sunset' ? 0.45 : 0.7)), rnd(i * 7) > 0.9 ? 2 : 1, rnd(i * 7) > 0.9 ? 2 : 1); }
     if (k === 'dino') { var img = new Image(); img.src = BOS.logoURL(1); x.globalAlpha = 0.16; for (i = 0; i < 40; i++) { x.save(); x.translate((i % 5) * 60 + (Math.floor(i / 5) % 2) * 30, Math.floor(i / 5) * 76 + 20); x.fillStyle = '#7b5cff'; x.fillRect(0, 0, 24, 24); x.restore(); } x.globalAlpha = 1; }
-    if (k !== 'dino') { x.fillStyle = k === 'sunset' ? '#fff2c0' : '#f5f0d0'; x.beginPath(); x.arc(W * 0.8, Hh * (k === 'sunset' ? 0.62 : 0.4), k === 'sunset' ? 34 : 14, 0, 7); x.fill(); }
+    if (k === 'sunset') { x.fillStyle = k === 'sunset' ? '#fff2c0' : '#f5f0d0'; x.beginPath(); x.arc(W * 0.8, Hh * (k === 'sunset' ? 0.62 : 0.4), k === 'sunset' ? 34 : 14, 0, 7); x.fill(); }
     var bx = 0; while (bx < W) { var bw = 18 + Math.floor(rnd(bx) * 30), bh = 50 + Math.floor(rnd(bx * 3) * 150); x.fillStyle = k === 'sunset' ? '#1b0b2a' : '#0a0a2a'; x.fillRect(bx, Hh - bh, bw, bh);
       for (var wy = Hh - bh + 6; wy < Hh - 6; wy += 9) for (var wx = bx + 3; wx < bx + bw - 4; wx += 6) if (rnd(wx * 13 + wy) > 0.68) { x.fillStyle = '#ffd400'; x.fillRect(wx, wy, 2, 3); } bx += bw + 2; }
     try { wallCache[k] = c.toDataURL('image/png'); } catch (e) { wallCache[k] = ''; }
@@ -68,8 +68,8 @@
 
   function buildHome() {
     var rec1 = BOS.store('rec-dino') || 0, rec2 = BOS.store('rec-turnik') || 0, rec3 = BOS.store('rec-escape') || 0;
-    home.innerHTML = '<section class="wg wg-me"><img src="assets/photos/kirill-avatar.jpg" alt="Кирилл Буланов" width="74" height="74"><div><h1>' + esc(A.name) + '</h1><div class="roles">' + A.roles.join(' · ') + '</div>' +
-      '<div class="row"><button type="button" class="pill pri" data-open="portfolio">▶ Работы</button><button type="button" class="pill" data-open="contacts">✉ Связаться</button><button type="button" class="pill" data-open="about">Обо мне</button></div></div></section>' +
+    home.innerHTML = '<section class="wg wg-me"><button type="button" class="me-ph" data-open="about" aria-label="Обо мне"><img src="assets/photos/kirill-avatar.jpg" alt="Кирилл Буланов" width="74" height="74"></button><div><button type="button" class="me-nm" data-open="about"><h1>' + esc(A.name) + ' <span aria-hidden="true">›</span></h1><span class="roles">' + A.roles.join(' · ') + '</span></button>' +
+      '<div class="row"><button type="button" class="pill pri" data-open="portfolio">▶ Работы</button><button type="button" class="pill" data-open="contacts">✉ Связаться</button></div></div></section>' +
       '<section class="wg wg-g"><h2>Мини-игры <span>рекорды</span></h2><div class="gl">' +
       [['bulanozavr', 'dino', 'Буланозавр', rec1], ['turnik', 'turnik', 'Турник', rec2 + ' м'], ['escape', 'escape', 'Побег', rec3 + ' м']].map(function (g) { return '<button type="button" data-game="' + g[0] + '"><canvas width="160" height="100" data-preview="' + g[1] + '"></canvas><span>' + g[2] + '<small>' + g[3] + '</small></span></button>'; }).join('') + '</div></section>' +
       '<nav class="grid" aria-label="Приложения">' + [['scripts', 'Сценарии'], ['ai', 'AI'], ['games', 'Игры'], ['settings', 'Настройки'], ['trash', 'Корзина']].map(icon).join('') + '</nav>' +
@@ -79,7 +79,22 @@
     $$('[data-open]', home).forEach(function (b) { b.addEventListener('click', function () { click(); open(b.dataset.open, { from: b }); }); });
     $$('[data-game]', home).forEach(function (b) { b.addEventListener('click', function () { click(); open('browser', { url: 'bulanos://' + b.dataset.game, from: b }); }); });
     $$('canvas[data-preview]', home).forEach(function (c) { if (BOS.games && BOS.games.preview) BOS.games.preview(c, c.dataset.preview); });
+    home.addEventListener('scroll', function () { home.scrollTop = 0; });
+    $$('img', home).forEach(function (im) { if (!im.complete) im.addEventListener('load', refit); });
+    refit();
   }
+  /* Главный экран как окно телефона: никакой прокрутки. Если не помещается — по шагам ужимаем второстепенное. */
+  var FIT = ['f1', 'f2', 'f3', 'f4', 'f5', 'f6'], fitT = 0;
+  function fitHome() {
+    if (!home) return;
+    FIT.forEach(function (c) { home.classList.remove(c); });
+    for (var i = 0; i < FIT.length && home.scrollHeight > home.clientHeight + 1; i++) home.classList.add(FIT[i]);
+    home.scrollTop = 0;
+  }
+  function refit() { clearTimeout(fitT); fitT = setTimeout(fitHome, 60); }
+  window.addEventListener('resize', refit); window.addEventListener('orientationchange', refit);
+  if (window.visualViewport) window.visualViewport.addEventListener('resize', refit);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(refit);
   function refreshRecords() { var s = $$('.wg-g small', home); if (s.length === 3) { s[0].textContent = BOS.store('rec-dino') || 0; s[1].textContent = (BOS.store('rec-turnik') || 0) + ' м'; s[2].textContent = (BOS.store('rec-escape') || 0) + ' м'; } }
 
   /* ---------- экран блокировки ---------- */
@@ -155,7 +170,7 @@
   function goHome() {
     rec.hidden = true; closeDialogs();
     if (cur) { var w = cur; cur = null; if (!reduced()) { w.el.classList.add('closing'); setTimeout(function () { w.el.classList.remove('closing'); hideApp(w); }, 170); } else hideApp(w); }
-    ph.classList.remove('app-open'); refreshRecords();
+    ph.classList.remove('app-open'); refreshRecords(); refit();
     if (armed) { armed = false; skipPop++; try { history.back(); } catch (e) {} }
   }
   function closeApp(w) {
